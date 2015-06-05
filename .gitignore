@@ -1,0 +1,9 @@
+/app/bootstrap.php.cache
+/var/*
+!var/.gitkeep
+/app/config/parameters.yml
+/app/phpunit.xml
+/bin/
+/composer.phar
+/vendor/
+/web/bundles/
