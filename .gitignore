@@ -1,6 +1,7 @@
 /app/bootstrap.php.cache
 /var/*
 !var/.gitkeep
+/src/AppBundle/Importer/*/var/*
 /app/config/parameters.yml
 /app/phpunit.xml
 /bin/

@@ -31,10 +31,7 @@ abstract class Importer
         }
     }
 
-    public function getRootDir() {
-
-        return dirname(__FILE__);
-    }
+    public abstract function getRootDir();
 
     public function getVarDir() {
 

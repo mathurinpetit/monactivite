@@ -29,7 +29,7 @@ class GitImporter extends Importer
                     $this->em->persist($activity);
                     $this->em->flush($activity);
                 }
-                
+
                 $output->writeln(sprintf("<info>Imported</info>;%s", str_replace("\n", "", $line)));
             } catch (\Exception $e) {
                 $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), str_replace("\n", "", $line)));
@@ -37,6 +37,11 @@ class GitImporter extends Importer
         }
 
         unlink($storeFile);
+    }
+
+    public function getRootDir() {
+
+        return dirname(__FILE__);
     }
 
     public function check($argument) {
