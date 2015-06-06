@@ -10,7 +10,7 @@ services:
 
     app.activity.manager:
         class: AppBundle\Activity\ActivityManager
-        arguments: [@app.slugger]
+        arguments: [@doctrine.orm.entity_manager, @app.slugger]
 
     app.importer.git:
         class: AppBundle\Importer\Git\Importer
