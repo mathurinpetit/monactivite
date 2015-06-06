@@ -1,10 +1,10 @@
 <?php 
 
-namespace AppBundle\Import;
+namespace AppBundle\Activity;
 
 use AppBundle\Entity\Activity;
 
-class ActivityImport
+class ActivityManager
 {
     protected $slugger;
 

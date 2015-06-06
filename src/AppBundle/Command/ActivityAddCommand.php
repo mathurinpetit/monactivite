@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Import\ActivityImport;
 
-class ImportActivityCommand extends ContainerAwareCommand
+class ActivityAddCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
@@ -24,10 +24,10 @@ class ImportActivityCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $importActivity = $this->getContainer()->get('app.import.activity');
+        $am = $this->getContainer()->get('app.activity.manager');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
-        $activity = $importActivity->fromArray(array(
+        $activity = $am->fromArray(array(
             "executed_at" => $input->getArgument('date'),
             "title" => $input->getArgument('title'),
             "content" => $input->getArgument('content'),

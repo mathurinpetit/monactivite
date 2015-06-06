@@ -8,6 +8,10 @@ services:
         class: AppBundle\Utils\Slugger
         arguments: []
 
-    app.import.activity:
-        class: AppBundle\Import\ActivityImport
+    app.activity.manager:
+        class: AppBundle\Activity\ActivityManager
         arguments: [@app.slugger]
+
+    app.importer.git:
+        class: AppBundle\Importer\Git\Importer
+        arguments: [@app.activity.manager, @doctrine.orm.entity_manager]
