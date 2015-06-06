@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use AppBundle\Import\ActivityImport;
 
 class ImportActivityCommand extends ContainerAwareCommand
 {
@@ -23,7 +24,17 @@ class ImportActivityCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $importActivity = $this->getContainer()->get('import_activity')
+        $importActivity = $this->getContainer()->get('app.import.activity');
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        
+        $activity = $importActivity->fromArray(array(
+            "executed_at" => $input->getArgument('date'),
+            "title" => $input->getArgument('title'),
+            "content" => $input->getArgument('content'),
+        ));
+
+        $em->persist($activity);
+        $em->flush();
     }
 }
 ?>

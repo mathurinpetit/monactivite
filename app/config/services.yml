@@ -4,6 +4,10 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.slugger:
+        class: AppBundle\Utils\Slugger
+        arguments: []
+
+    app.import.activity:
+        class: AppBundle\Import\ActivityImport
+        arguments: [@app.slugger]
