@@ -13,5 +13,5 @@ services:
         arguments: [@doctrine.orm.entity_manager, @app.slugger]
 
     app.importer.git:
-        class: AppBundle\Importer\Git\Importer
+        class: AppBundle\Importer\Git\GitImporter
         arguments: [@app.activity.manager, @doctrine.orm.entity_manager]

@@ -16,7 +16,8 @@ class ImporterCommand extends ContainerAwareCommand
             ->setName('monactivite:importer')
             ->setDescription('Run importer')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the importer')
-            ->addArgument('argument', InputArgument::REQUIRED, 'Argument to run importer');
+            ->addArgument('argument', InputArgument::REQUIRED, 'Argument to run importer')
+            ->addOption('dry-run', 't', InputOption::VALUE_NONE, 'Try import but not store in database');
         ;
     }
 
@@ -24,8 +25,8 @@ class ImporterCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $importer = $this->getContainer()->get('app.importer.'.$input->getArgument('name'));
-        
-        $importer->run($input->getArgument('argument'), $output);
+        $importer->check($input->getArgument('argument'));
+        $importer->run($input->getArgument('argument'), $output, $input->getOption('dry-run'));
     }
 }
 ?>
