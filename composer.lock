@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a203154e39a4021e28104333d21b869b",
+    "hash": "5c869c3c3411c87834684be62a74d8c4",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -701,6 +701,54 @@
                 "orm"
             ],
             "time": "2014-12-16 13:45:01"
+        },
+        {
+            "name": "fguillot/picofeed",
+            "version": "v0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fguillot/picoFeed.git",
+                "reference": "1f5109f63bca7e41d555e995b70691457caa8918"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fguillot/picoFeed/zipball/1f5109f63bca7e41d555e995b70691457caa8918",
+                "reference": "1f5109f63bca7e41d555e995b70691457caa8918",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-iconv": "*",
+                "ext-libxml": "*",
+                "ext-simplexml": "*",
+                "ext-xml": "*",
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-curl": "PicoFeed will use cURL if present"
+            },
+            "bin": [
+                "picofeed"
+            ],
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PicoFeed": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Unlicense"
+            ],
+            "authors": [
+                {
+                    "name": "Frédéric Guillot",
+                    "homepage": "http://fredericguillot.com"
+                }
+            ],
+            "description": "Modern library to write or read feeds (RSS/Atom)",
+            "homepage": "http://fguillot.github.io/picoFeed",
+            "time": "2015-04-11 01:04:30"
         },
         {
             "name": "html2text/html2text",

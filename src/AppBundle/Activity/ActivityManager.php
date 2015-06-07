@@ -37,7 +37,11 @@ class ActivityManager
     public function fromArray($datas) {
 
         $activity = new Activity();
-        $activity->setExecutedAt(new \DateTime($datas['executed_at']));
+        if($datas['executed_at'] instanceof \DateTime) {
+            $activity->setExecutedAt($datas['executed_at']);
+        } else {
+            $activity->setExecutedAt(new \DateTime($datas['executed_at']));
+        }
         $activity->setTitle($datas['title']);
         $activity->setContent($datas['content']);
 

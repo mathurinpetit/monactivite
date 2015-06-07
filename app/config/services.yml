@@ -12,6 +12,10 @@ services:
         class: AppBundle\Utils\MailParser
         arguments: [@lasso_mail_parser.part_factory]
 
+    app.feed.parser:
+        class: PicoFeed\Reader\Reader
+        arguments: []
+
     app.activity.manager:
         class: AppBundle\Activity\ActivityManager
         arguments: [@doctrine.orm.entity_manager, @app.slugger]
@@ -23,3 +27,7 @@ services:
     app.importer.mail:
         class: AppBundle\Importer\Mail\MailImporter
         arguments: [@app.activity.manager, @doctrine.orm.entity_manager, @app.mail.parser]
+
+    app.importer.feed:
+        class: AppBundle\Importer\Feed\FeedImporter
+        arguments: [@app.activity.manager, @doctrine.orm.entity_manager, @app.feed.parser]

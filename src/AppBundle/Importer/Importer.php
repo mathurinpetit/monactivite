@@ -37,12 +37,4 @@ abstract class Importer
 
         return $this->getRootDir()."/var";
     }
-
-    protected function storeCsv($file) {
-        $storeFile = sprintf("%s/var/commits_%s_%s.csv", dirname(__FILE__), date("YmdHis"), uniqid());
-        
-        shell_exec(sprintf("%s/bin/git2csv.sh %s > %s", dirname(__FILE__), $file, $storeFile));
-    
-        return $storeFile;
-    }
 } 
