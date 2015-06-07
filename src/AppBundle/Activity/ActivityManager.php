@@ -18,11 +18,11 @@ class ActivityManager
 
     public function fromEntity(Activity $activity) {
         if(!$activity->getExecutedAt()) {
-            throw new \Exception("Title is required");
+            throw new \Exception("Date is required");
         }
 
         if(!$activity->getTitle()) {
-            throw new \Exception("Date is required");
+            throw new \Exception("Ttitle is required");
         }
 
         $activity->setSlug(md5($this->slugger->slugify(sprintf("%s_%s", $activity->getExecutedAt()->format('Y-m-d H:i-s'), $activity->getTitle()))));
@@ -43,6 +43,7 @@ class ActivityManager
             $activity->setExecutedAt(new \DateTime($datas['executed_at']));
         }
         $activity->setTitle($datas['title']);
+        $activity->setAuthor($datas['author']);
         $activity->setContent($datas['content']);
 
         return $this->fromEntity($activity);

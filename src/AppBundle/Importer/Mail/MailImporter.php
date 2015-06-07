@@ -58,9 +58,6 @@ class MailImporter extends Importer
             return false;
         }
 
-        //$addressesFrom = $parsedMail->getAllEmailAddresses(array('from'));
-        //$addressesTo = $parsedMail->getAllEmailAddresses(array('to'));
-
         try {
             $subject = $parsedMail->getMail()->getHeaderField("Subject");
         } catch(\Exception $e) {
@@ -69,12 +66,15 @@ class MailImporter extends Importer
 
         $date = $parsedMail->getMail()->getHeaderField("Date");
 
+        $author = $parsedMail->getMail()->getHeaderField("From");
+
         $html2text = new Html2Text($parsedMail->getPrimaryContent());
         $body = $html2text->get_text();
 
         try {
             $activity = $this->am->fromArray(array(
                 'title' => $subject,
+                'author' => $author,
                 'executed_at' => $date,
                 'content' => $body,
             ));
@@ -84,11 +84,11 @@ class MailImporter extends Importer
                 $this->em->flush($activity);
             }
             if($output->isVerbose()) {
-                $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $date, $subject, str_replace("\n", "", $body)));
+                $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $date, $subject, $author));
             }
         } catch (\Exception $e) {
             if($output->isVerbose()) {
-                $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $date, $subject, str_replace("\n", "", $body)));
+                $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $date, $subject, $author));
             }
 
             return false;

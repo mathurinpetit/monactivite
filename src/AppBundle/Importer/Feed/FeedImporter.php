@@ -32,12 +32,16 @@ class FeedImporter extends Importer
         $nb = 0;
         
         foreach($feed->getItems() as $item) {
+            $author = $item->getAuthor() ? $item->getAuthor() : null;
+            
             try {
                 $activity = $this->am->fromArray(array(
                     'title' => $item->getTitle(),
                     'executed_at' => $item->getDate(),
                     'content' => $item->getContent(),
+                    'author' => $author,
                 ));
+
 
                 if(!$dryrun) {
                     $this->em->persist($activity);
@@ -47,12 +51,12 @@ class FeedImporter extends Importer
                 $nb++;
 
                 if($output->isVerbose()) {
-                    $output->writeln(sprintf("<info>Imported</info>;%s", str_replace("\n", "", $item)));
+                    $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $item->getDate()->format('c'), $item->getTitle(), $author));
                 }
 
             } catch (\Exception $e) {
                 if($output->isVerbose()) {
-                    $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), str_replace("\n", "", $item)));
+                    $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $item->getDate()->format('c'), $item->getTitle(), $author));
                 }
             }
 
