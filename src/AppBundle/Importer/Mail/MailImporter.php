@@ -18,14 +18,17 @@ class MailImporter extends Importer
     }
 
     public function run($argument, OutputInterface $output, $dryrun = false) {
+        $output->writeln(sprintf("<comment>Started import mails in %s</comment>", $argument));
+
         $mail = null;
         $start = false;
+        $nb = 0;
         $handle = fopen($argument, "r");
 
         while (($line = fgets($handle)) !== false) {
             if(preg_match('/^(From .?$|From - )/', $line)) {
                 if($mail && $start) {
-                    $this->importMail($mail, $output, $dryrun);
+                    if($this->importMail($mail, $output, $dryrun)) { $nb++; }
                 }
                 $mail = null;
                 $start = true;
@@ -36,10 +39,12 @@ class MailImporter extends Importer
         }
 
         if($mail && $start) {
-            $this->importMail($mail, $output, $dryrun);
+            if($this->importMail($mail, $output, $dryrun)) { $nb++; }
         }
 
         fclose($handle);
+
+        $output->writeln(sprintf("<info>%s new activity imported</info>", $nb));
     }
 
     protected function importMail($mail, OutputInterface $output, $dryrun = false) {
@@ -78,10 +83,15 @@ class MailImporter extends Importer
                 $this->em->persist($activity);
                 $this->em->flush($activity);
             }
-
-            $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $date, $subject, str_replace("\n", "", $body)));
+            if($output->isVerbose()) {
+                $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $date, $subject, str_replace("\n", "", $body)));
+            }
         } catch (\Exception $e) {
-            $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $date, $subject, str_replace("\n", "", $body)));
+            if($output->isVerbose()) {
+                $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $date, $subject, str_replace("\n", "", $body)));
+            }
+
+            return false;
         }
 
         return true;
@@ -101,7 +111,7 @@ class MailImporter extends Importer
 
         $line = "";
         $handle = fopen($argument, "r");
-        for($i=1; $i<10; $i++) { $line .= fgets($handle); }
+        for($i=1; $i<20; $i++) { $line .= fgets($handle); }
         fclose($handle);
 
         if(strpos($line, "Message-ID") === false) {

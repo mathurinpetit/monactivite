@@ -9,7 +9,11 @@ class GitImporter extends Importer
 {
 
     public function run($argument, OutputInterface $output, $dryrun = false) {
+        $output->writeln(sprintf("<comment>Started import git commit in %s</comment>", $argument));
+
         $storeFile = $this->storeCsv($argument);
+
+        $nb = 0;
 
         foreach(file($storeFile) as $line) {
             $datas = str_getcsv($line, ";", '"');
@@ -30,13 +34,21 @@ class GitImporter extends Importer
                     $this->em->flush($activity);
                 }
 
-                $output->writeln(sprintf("<info>Imported</info>;%s", str_replace("\n", "", $line)));
+                $nb++;
+
+                if($output->isVerbose()) {
+                    $output->writeln(sprintf("<info>Imported</info>;%s", str_replace("\n", "", $line)));
+                }
             } catch (\Exception $e) {
-                $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), str_replace("\n", "", $line)));
+                if($output->isVerbose()) {
+                    $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), str_replace("\n", "", $line)));
+                }
             }
         }
 
         unlink($storeFile);
+        
+        $output->writeln(sprintf("<info>%s new activity imported</info>", $nb));
     }
 
     public function getRootDir() {

@@ -17,6 +17,8 @@ class FeedImporter extends Importer
     }
 
     public function run($argument, OutputInterface $output, $dryrun = false) {
+        $output->writeln(sprintf("<comment>Started import feed %s</comment>", $argument));
+
         $resource = $this->feedParser->download($argument);
 
         $parser = $this->feedParser->getParser(
@@ -26,7 +28,9 @@ class FeedImporter extends Importer
         );
 
         $feed = $parser->execute();
-
+        
+        $nb = 0;
+        
         foreach($feed->getItems() as $item) {
             try {
                 $activity = $this->am->fromArray(array(
@@ -40,11 +44,21 @@ class FeedImporter extends Importer
                     $this->em->flush($activity);
                 }
 
-                $output->writeln(sprintf("<info>Imported</info>;%s", str_replace("\n", "", $item)));
+                $nb++;
+
+                if($output->isVerbose()) {
+                    $output->writeln(sprintf("<info>Imported</info>;%s", str_replace("\n", "", $item)));
+                }
+
             } catch (\Exception $e) {
-                $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), str_replace("\n", "", $item)));
+                if($output->isVerbose()) {
+                    $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), str_replace("\n", "", $item)));
+                }
             }
+
         }
+        
+        $output->writeln(sprintf("<info>%s new activity imported</info>", $nb));
     }
 
     public function getRootDir() {
@@ -56,7 +70,8 @@ class FeedImporter extends Importer
         parent::check($argument);
 
         try {
-            $this->feedParser->download($argument);
+            $resource = $this->feedParser->download($argument);
+            $parser = $this->feedParser->getParser($resource->getUrl(), $resource->getContent(), $resource->getEncoding());
         } catch(\Exception $e) {
 
             throw new \Exception(sprintf("Feed Url %s isn't valid : %s", $argument, $e->getMessage()));
