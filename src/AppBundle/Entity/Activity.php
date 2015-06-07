@@ -38,6 +38,13 @@ class Activity
     /**
      * @var string
      *
+     * @ORM\Column(name="destination", type="string", length=255, nullable=true)
+     */
+    private $destination;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
@@ -111,6 +118,29 @@ class Activity
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * Set destination
+     *
+     * @param string $destination
+     * @return Activity
+     */
+    public function setDestination($destination)
+    {
+        $this->destination = $destination;
+
+        return $this;
+    }
+
+    /**
+     * Get destination
+     *
+     * @return string 
+     */
+    public function getDestination()
+    {
+        return $this->destination;
     }
 
     /**

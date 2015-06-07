@@ -28,6 +28,7 @@ class GitImporter extends Importer
                     'executed_at' => $date,
                     'author' => $author,
                     'content' => $content,
+                    'destination' => null,
                 ));
 
                 if(!$dryrun) {
@@ -38,11 +39,11 @@ class GitImporter extends Importer
                 $nb++;
 
                 if($output->isVerbose()) {
-                    $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $date, $title, $author));
+                    $output->writeln(sprintf("<info>Imported</info>;%s;%s", $date, $title));
                 }
             } catch (\Exception $e) {
                 if($output->isVerbose()) {
-                    $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $date, $title, $author));
+                    $output->writeln(sprintf("<error>%s</error>;%s;%s", $e->getMessage(), $date, $title));
                 }
             }
         }

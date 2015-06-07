@@ -40,6 +40,7 @@ class FeedImporter extends Importer
                     'executed_at' => $item->getDate(),
                     'content' => $item->getContent(),
                     'author' => $author,
+                    'destination' => null,
                 ));
 
 
@@ -51,12 +52,12 @@ class FeedImporter extends Importer
                 $nb++;
 
                 if($output->isVerbose()) {
-                    $output->writeln(sprintf("<info>Imported</info>;%s;%s;%s", $item->getDate()->format('c'), $item->getTitle(), $author));
+                    $output->writeln(sprintf("<info>Imported</info>;%s;%s", $item->getDate()->format('c'), $item->getTitle()));
                 }
 
             } catch (\Exception $e) {
                 if($output->isVerbose()) {
-                    $output->writeln(sprintf("<error>%s</error>;%s;%s;%s", $e->getMessage(), $item->getDate()->format('c'), $item->getTitle(), $author));
+                    $output->writeln(sprintf("<error>%s</error>;%s;%s", $e->getMessage(), $item->getDate()->format('c'), $item->getTitle()));
                 }
             }
 

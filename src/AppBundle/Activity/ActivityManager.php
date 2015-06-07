@@ -44,6 +44,7 @@ class ActivityManager
         }
         $activity->setTitle($datas['title']);
         $activity->setAuthor($datas['author']);
+        $activity->setDestination($datas['destination']);
         $activity->setContent($datas['content']);
 
         return $this->fromEntity($activity);
