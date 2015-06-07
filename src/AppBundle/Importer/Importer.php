@@ -15,9 +15,9 @@ abstract class Importer
         $this->em = $em;
     }
 
-    public abstract function run($argument, OutputInterface $output, $dryrun = false);
+    public abstract function run($source, $sourceName = null, OutputInterface $output, $dryrun = false);
 
-    public function check($argument) {
+    public function check($source) {
         if(!file_exists($this->getVarDir())) {
             mkdir($this->getVarDir());
         }

@@ -46,6 +46,7 @@ class ActivityManager
         $activity->setAuthor($datas['author']);
         $activity->setDestination($datas['destination']);
         $activity->setContent($datas['content']);
+        $activity->setSource($datas['source']);
 
         return $this->fromEntity($activity);
     }

@@ -7,10 +7,10 @@ use AppBundle\Importer\Importer;
 
 class GitImporter extends Importer
 {
-    public function run($argument, OutputInterface $output, $dryrun = false) {
-        $output->writeln(sprintf("<comment>Started import git commit in %s</comment>", $argument));
+    public function run($source, $sourceName = null, OutputInterface $output, $dryrun = false) {
+        $output->writeln(sprintf("<comment>Started import git commit in %s</comment>", $source));
 
-        $storeFile = $this->storeCsv($argument);
+        $storeFile = $this->storeCsv($source);
 
         $nb = 0;
 
@@ -29,6 +29,7 @@ class GitImporter extends Importer
                     'author' => $author,
                     'content' => $content,
                     'destination' => null,
+                    'source' => sprintf("%s <%s>", $sourceName, $source),
                 ));
 
                 if(!$dryrun) {
@@ -58,15 +59,15 @@ class GitImporter extends Importer
         return dirname(__FILE__);
     }
 
-    public function check($argument) {
-        parent::check($argument);
+    public function check($source) {
+        parent::check($source);
 
-        if(!file_exists($argument)) {
-            throw new \Exception(sprintf("Folder %s doesn't exist", $argument));
+        if(!file_exists($source)) {
+            throw new \Exception(sprintf("Folder %s doesn't exist", $source));
         }
 
-        if(!file_exists($argument."/.git")) {
-            throw new \Exception(sprintf("This folder isn't a git repository", $argument));
+        if(!file_exists($source."/.git")) {
+            throw new \Exception(sprintf("This folder isn't a git repository", $source));
         }
     }
 

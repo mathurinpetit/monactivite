@@ -59,6 +59,13 @@ class Activity
     /**
      * @var string
      *
+     * @ORM\Column(name="source", type="text", nullable=true)
+     */
+    private $source;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
@@ -187,6 +194,29 @@ class Activity
     public function getExecutedAt()
     {
         return $this->executedAt;
+    }
+
+    /**
+     * Set source
+     *
+     * @param string $source
+     * @return Activity
+     */
+    public function setSource($source)
+    {
+        $this->source = $source;
+
+        return $this;
+    }
+
+    /**
+     * Get source
+     *
+     * @return string 
+     */
+    public function getSource()
+    {
+        return $this->source;
     }
 
     /**

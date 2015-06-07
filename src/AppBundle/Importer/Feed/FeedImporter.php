@@ -16,10 +16,10 @@ class FeedImporter extends Importer
         $this->feedParser = $feedParser;
     }
 
-    public function run($argument, OutputInterface $output, $dryrun = false) {
-        $output->writeln(sprintf("<comment>Started import feed %s</comment>", $argument));
+    public function run($source, $sourceName = null, OutputInterface $output, $dryrun = false) {
+        $output->writeln(sprintf("<comment>Started import feed %s</comment>", $source));
 
-        $resource = $this->feedParser->download($argument);
+        $resource = $this->feedParser->download($source);
 
         $parser = $this->feedParser->getParser(
             $resource->getUrl(),
@@ -41,6 +41,7 @@ class FeedImporter extends Importer
                     'content' => $item->getContent(),
                     'author' => $author,
                     'destination' => null,
+                    'source' => sprintf("%s <%s>", $sourceName, $source),
                 ));
 
 
@@ -71,15 +72,15 @@ class FeedImporter extends Importer
         return dirname(__FILE__);
     }
 
-    public function check($argument) {
-        parent::check($argument);
+    public function check($source) {
+        parent::check($source);
 
         try {
-            $resource = $this->feedParser->download($argument);
+            $resource = $this->feedParser->download($source);
             $parser = $this->feedParser->getParser($resource->getUrl(), $resource->getContent(), $resource->getEncoding());
         } catch(\Exception $e) {
 
-            throw new \Exception(sprintf("Feed Url %s isn't valid : %s", $argument, $e->getMessage()));
+            throw new \Exception(sprintf("Feed Url %s isn't valid : %s", $source, $e->getMessage()));
         }
     }
 

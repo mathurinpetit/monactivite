@@ -17,18 +17,18 @@ class MailImporter extends Importer
         $this->mailParser = $mailParser;
     }
 
-    public function run($argument, OutputInterface $output, $dryrun = false) {
-        $output->writeln(sprintf("<comment>Started import mails in %s</comment>", $argument));
+    public function run($source, $sourceName = null, OutputInterface $output, $dryrun = false) {
+        $output->writeln(sprintf("<comment>Started import mails in %s</comment>", $source));
 
         $mail = null;
         $start = false;
         $nb = 0;
-        $handle = fopen($argument, "r");
+        $handle = fopen($source, "r");
 
         while (($line = fgets($handle)) !== false) {
             if(preg_match('/^(From .?$|From - )/', $line)) {
                 if($mail && $start) {
-                    if($this->importMail($mail, $output, $dryrun)) { $nb++; }
+                    if($this->importMail($mail, $source, $sourceName, $output, $dryrun)) { $nb++; }
                 }
                 $mail = null;
                 $start = true;
@@ -39,7 +39,7 @@ class MailImporter extends Importer
         }
 
         if($mail && $start) {
-            if($this->importMail($mail, $output, $dryrun)) { $nb++; }
+            if($this->importMail($mail, $source, $sourceName, $output, $dryrun)) { $nb++; }
         }
 
         fclose($handle);
@@ -47,7 +47,7 @@ class MailImporter extends Importer
         $output->writeln(sprintf("<info>%s new activity imported</info>", $nb));
     }
 
-    protected function importMail($mail, OutputInterface $output, $dryrun = false) {
+    protected function importMail($mail, $source, $sourceName, OutputInterface $output, $dryrun = false) {
         try {
             $parsedMail = @$this->mailParser->parse($mail);
         } catch(\Exception $e) {
@@ -82,6 +82,7 @@ class MailImporter extends Importer
                 'executed_at' => $date,
                 'content' => $body,
                 'destination' => $destination,
+                'source' => sprintf("%s <%s>", $sourceName, $source),
             ));
 
             if(!$dryrun) {
@@ -107,20 +108,20 @@ class MailImporter extends Importer
         return dirname(__FILE__);
     }
 
-    public function check($argument) {
-        parent::check($argument);
+    public function check($source) {
+        parent::check($source);
 
-        if(!file_exists($argument)) {
-            throw new \Exception(sprintf("File %s doesn't exist", $argument));
+        if(!file_exists($source)) {
+            throw new \Exception(sprintf("File %s doesn't exist", $source));
         }
 
         $line = "";
-        $handle = fopen($argument, "r");
+        $handle = fopen($source, "r");
         for($i=1; $i<20; $i++) { $line .= fgets($handle); }
         fclose($handle);
 
         if(strpos($line, "Message-ID") === false) {
-           throw new \Exception(sprintf("This file is not a mail file : %s", $argument)); 
+           throw new \Exception(sprintf("This file is not a mail file : %s", $source)); 
         }
     }
 
