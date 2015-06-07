@@ -8,6 +8,10 @@ services:
         class: AppBundle\Utils\Slugger
         arguments: []
 
+    app.mail.parser:
+        class: AppBundle\Utils\MailParser
+        arguments: [@lasso_mail_parser.part_factory]
+
     app.activity.manager:
         class: AppBundle\Activity\ActivityManager
         arguments: [@doctrine.orm.entity_manager, @app.slugger]
@@ -15,3 +19,7 @@ services:
     app.importer.git:
         class: AppBundle\Importer\Git\GitImporter
         arguments: [@app.activity.manager, @doctrine.orm.entity_manager]
+
+    app.importer.mail:
+        class: AppBundle\Importer\Mail\MailImporter
+        arguments: [@app.activity.manager, @doctrine.orm.entity_manager, @app.mail.parser]
