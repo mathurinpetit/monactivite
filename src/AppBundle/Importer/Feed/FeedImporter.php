@@ -17,7 +17,7 @@ class FeedImporter extends Importer
     }
 
     public function run($argument, OutputInterface $output, $dryrun = false) {
-        $resource = $this->feedParser->download('http://24eme.fr/test.xml');
+        $resource = $this->feedParser->download($argument);
 
         $parser = $this->feedParser->getParser(
             $resource->getUrl(),
@@ -55,6 +55,12 @@ class FeedImporter extends Importer
     public function check($argument) {
         parent::check($argument);
 
+        try {
+            $this->feedParser->download($argument);
+        } catch(\Exception $e) {
+
+            throw new \Exception(sprintf("Feed Url %s isn't valid : %s", $argument, $e->getMessage()));
+        }
     }
 
 } 
