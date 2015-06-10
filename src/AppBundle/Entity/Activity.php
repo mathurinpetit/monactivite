@@ -38,9 +38,9 @@ class Activity
     /**
      * @var string
      *
-     * @ORM\Column(name="destination", type="string", length=255, nullable=true)
+     * @ORM\Column(name="recipient", type="string", length=255, nullable=true)
      */
-    private $destination;
+    private $recipient;
 
     /**
      * @var string
@@ -135,26 +135,26 @@ class Activity
     }
 
     /**
-     * Set destination
+     * Set recipient
      *
-     * @param string $destination
+     * @param string $recipient
      * @return Activity
      */
-    public function setDestination($destination)
+    public function setRecipient($recipient)
     {
-        $this->destination = $destination;
+        $this->recipient = $recipient;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get recipient
      *
      * @return string 
      */
-    public function getType()
+    public function getRecipient()
     {
-        return $this->type;
+        return $this->recipient;
     }
 
     /**
@@ -171,13 +171,13 @@ class Activity
     }
 
     /**
-     * Get destination
+     * Get type
      *
      * @return string 
      */
-    public function getDestination()
+    public function getType()
     {
-        return $this->destination;
+        return $this->type;
     }
 
     /**

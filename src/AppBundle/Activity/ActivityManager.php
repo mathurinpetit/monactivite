@@ -37,11 +37,9 @@ class ActivityManager
     public function fromArray($datas) {
         $activity = new Activity();
 
-        if(!isset($datas['executed_at'])) {
-
-        } elseif($datas['executed_at'] instanceof \DateTime) {
+        if(isset($datas['executed_at']) && $datas['executed_at'] instanceof \DateTime) {
             $activity->setExecutedAt($datas['executed_at']);
-        } elseif($datas['executed_at']) {
+        } elseif(isset($datas['executed_at']) && $datas['executed_at']) {
             $activity->setExecutedAt(new \DateTime($datas['executed_at']));
         }
 
@@ -51,8 +49,8 @@ class ActivityManager
         if(isset($datas['author'])) {
             $activity->setAuthor($datas['author']);
         }
-        if(isset($datas['destination'])) {
-            $activity->setDestination($datas['destination']);
+        if(isset($datas['recipient'])) {
+            $activity->setRecipient($datas['recipient']);
         }
         if(isset($datas['type'])) {
             $activity->setType($datas['type']);
