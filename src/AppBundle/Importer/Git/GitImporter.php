@@ -28,6 +28,7 @@ class GitImporter extends Importer
                     'executed_at' => $date,
                     'author' => $author,
                     'content' => $content,
+                    'type' => 'Commit',
                     'source' => sprintf("%s <%s>", $sourceName, $source),
                 ));
 

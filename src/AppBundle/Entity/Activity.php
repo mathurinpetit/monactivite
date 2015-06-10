@@ -45,6 +45,13 @@ class Activity
     /**
      * @var string
      *
+     * @ORM\Column(name="type", type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="content", type="text", nullable=true)
      */
     private $content;
@@ -136,6 +143,29 @@ class Activity
     public function setDestination($destination)
     {
         $this->destination = $destination;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Activity
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
 
         return $this;
     }

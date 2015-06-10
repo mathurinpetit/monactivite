@@ -54,6 +54,9 @@ class ActivityManager
         if(isset($datas['destination'])) {
             $activity->setDestination($datas['destination']);
         }
+        if(isset($datas['type'])) {
+            $activity->setType($datas['type']);
+        }
         if(isset($datas['content'])) {
             $activity->setContent($datas['content']);
         }

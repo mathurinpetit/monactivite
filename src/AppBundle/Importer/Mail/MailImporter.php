@@ -82,6 +82,7 @@ class MailImporter extends Importer
                 'executed_at' => $date,
                 'content' => $body,
                 'destination' => $destination,
+                'type' => 'Mail',
                 'source' => sprintf("%s <%s>", $sourceName, $source),
             ));
 
