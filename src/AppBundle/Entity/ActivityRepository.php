@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 /**
  * ActivityRepository
@@ -12,14 +13,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class ActivityRepository extends EntityRepository
 {
-    public function findAll() {
+    public function findByDate($date) {
+
+        $dateFrom = clone $date;
+        $dateFrom->modify("+1 day");
 
         return $this->getEntityManager()
                     ->createQuery('
                             SELECT a, at
                             FROM AppBundle:Activity a
                             LEFT JOIN a.attributes at
+                            WHERE a.executedAt >= :date_from AND a.executedAt < :date_to
                             ORDER BY a.executedAt DESC
-                  ')->getResult();
+                  ')
+                   ->setParameter('date_from', $date)
+                   ->setParameter('date_to', $dateFrom)
+                   ->getResult();
     }
 }

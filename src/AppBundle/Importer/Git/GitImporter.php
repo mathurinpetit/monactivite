@@ -24,6 +24,10 @@ class GitImporter extends Importer
             $activity->setTitle(isset($datas[4]) ? trim($datas[4]) : null);
             $activity->setContent(isset($datas[5]) ? trim($datas[5]) : null);
 
+            $type = new ActivityAttribute();
+            $type->setName("Type");
+            $type->setValue("Commit");
+
             $repository = new ActivityAttribute();
             $repository->setName("Repository");
             $repository->setValue($sourceName);
@@ -32,6 +36,7 @@ class GitImporter extends Importer
             $author->setName("Author");
             $author->setValue(isset($datas[2]) ? trim($datas[2]) : null);
 
+            $activity->addAttribute($type);
             $activity->addAttribute($repository);
             $activity->addAttribute($author);
 
@@ -39,6 +44,7 @@ class GitImporter extends Importer
                 $this->am->addFromEntity($activity);
 
                 if(!$dryrun) {
+                    $this->em->persist($type);
                     $this->em->persist($repository);
                     $this->em->persist($author);
                     $this->em->persist($activity);

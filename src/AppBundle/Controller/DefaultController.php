@@ -15,8 +15,15 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         $repo = $em->getRepository('AppBundle:Activity');
 
-        $activities = $repo->findAll();
+        $activitiesByDates = array();
 
-        return $this->render('default/index.html.twig', array('activities' => $activities));
+        for($i=0;$i<7;$i++) {
+            $date = new \DateTime("2015-06-11");
+            $date->modify("- ".$i."days");
+
+            $activitiesByDates[$date->format('Y-m-d')] = $repo->findByDate($date);
+        }
+
+        return $this->render('default/index.html.twig', array('activitiesByDates' => $activitiesByDates));
     }
 }

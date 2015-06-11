@@ -82,6 +82,10 @@ class MailImporter extends Importer
         $activity->setTitle($subject);
         $activity->setContent($body);
 
+        $type = new ActivityAttribute();
+        $type->setName("Type");
+        $type->setValue("Mail");
+
         $sender = new ActivityAttribute();
         $sender->setName("Sender");
         $sender->setValue($author);
@@ -90,6 +94,7 @@ class MailImporter extends Importer
         $recipient->setName("Recipient");
         $recipient->setValue($to);
 
+        $activity->addAttribute($type);
         $activity->addAttribute($sender);
         $activity->addAttribute($recipient);
 
@@ -97,6 +102,7 @@ class MailImporter extends Importer
             $this->am->addFromEntity($activity);
 
             if(!$dryrun) {
+                $this->em->persist($type);
                 $this->em->persist($sender);
                 $this->em->persist($recipient);
                 $this->em->persist($activity);
