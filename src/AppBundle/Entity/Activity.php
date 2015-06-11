@@ -54,6 +54,12 @@ class Activity
      * @ORM\OneToMany(targetEntity="ActivityAttribute", mappedBy="activity")
      */
     protected $attributes;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="activities")
+     * @ORM\JoinTable(name="activities_tags")
+     **/
+    private $tags;
     
     /**
      * Constructor
@@ -197,5 +203,38 @@ class Activity
     public function getAttributes()
     {
         return $this->attributes;
+    }
+
+    /**
+     * Add tags
+     *
+     * @param \AppBundle\Entity\Tag $tags
+     * @return Activity
+     */
+    public function addTag(\AppBundle\Entity\Tag $tags)
+    {
+        $this->tags[] = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Remove tags
+     *
+     * @param \AppBundle\Entity\Tag $tags
+     */
+    public function removeTag(\AppBundle\Entity\Tag $tags)
+    {
+        $this->tags->removeElement($tags);
+    }
+
+    /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTags()
+    {
+        return $this->tags;
     }
 }
