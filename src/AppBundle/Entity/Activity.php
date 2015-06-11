@@ -271,4 +271,14 @@ class Activity
     {
         return $this->slug;
     }
+
+    public function getSourceHuman() {
+
+        return preg_replace("/<.+>$/","", $this->getSource());
+    }
+
+    public function getAuthorHuman() {
+
+        return preg_replace("/<.+>$/","", $this->getAuthor());
+    }
 }
