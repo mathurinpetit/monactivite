@@ -28,19 +28,6 @@ class Activity
      */
     private $title;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="author", type="string", length=255, nullable=true)
-     */
-    private $author;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="destination", type="string", length=255, nullable=true)
-     */
-    private $destination;
 
     /**
      * @var string
@@ -59,17 +46,22 @@ class Activity
     /**
      * @var string
      *
-     * @ORM\Column(name="source", type="text", nullable=true)
-     */
-    private $source;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="slug", type="string", length=255, unique=true)
      */
     private $slug;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ActivityAttribute", mappedBy="attribute")
+     */
+    protected $attributes;
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->attributes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -102,52 +94,6 @@ class Activity
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * Set author
-     *
-     * @param string $author
-     * @return Activity
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return string 
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
-     * Set destination
-     *
-     * @param string $destination
-     * @return Activity
-     */
-    public function setDestination($destination)
-    {
-        $this->destination = $destination;
-
-        return $this;
-    }
-
-    /**
-     * Get destination
-     *
-     * @return string 
-     */
-    public function getDestination()
-    {
-        return $this->destination;
     }
 
     /**
@@ -197,29 +143,6 @@ class Activity
     }
 
     /**
-     * Set source
-     *
-     * @param string $source
-     * @return Activity
-     */
-    public function setSource($source)
-    {
-        $this->source = $source;
-
-        return $this;
-    }
-
-    /**
-     * Get source
-     *
-     * @return string 
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
      * Set slug
      *
      * @param string $slug
@@ -240,5 +163,38 @@ class Activity
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Add attributes
+     *
+     * @param \AppBundle\Entity\ActivityAttribute $attributes
+     * @return Activity
+     */
+    public function addAttribute(\AppBundle\Entity\ActivityAttribute $attributes)
+    {
+        $this->attributes[] = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Remove attributes
+     *
+     * @param \AppBundle\Entity\ActivityAttribute $attributes
+     */
+    public function removeAttribute(\AppBundle\Entity\ActivityAttribute $attributes)
+    {
+        $this->attributes->removeElement($attributes);
+    }
+
+    /**
+     * Get attributes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttributes()
+    {
+        return $this->attributes;
     }
 }
