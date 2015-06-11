@@ -35,18 +35,32 @@ class ActivityManager
     }
 
     public function fromArray($datas) {
-
         $activity = new Activity();
-        if($datas['executed_at'] instanceof \DateTime) {
+
+        if(isset($datas['executed_at']) && $datas['executed_at'] instanceof \DateTime) {
             $activity->setExecutedAt($datas['executed_at']);
-        } else {
+        } elseif(isset($datas['executed_at']) && $datas['executed_at']) {
             $activity->setExecutedAt(new \DateTime($datas['executed_at']));
         }
-        $activity->setTitle($datas['title']);
-        $activity->setAuthor($datas['author']);
-        $activity->setDestination($datas['destination']);
-        $activity->setContent($datas['content']);
-        $activity->setSource($datas['source']);
+
+        if(isset($datas['title'])) {
+            $activity->setTitle($datas['title']);
+        }
+        if(isset($datas['author'])) {
+            $activity->setAuthor($datas['author']);
+        }
+        if(isset($datas['recipient'])) {
+            $activity->setRecipient($datas['recipient']);
+        }
+        if(isset($datas['type'])) {
+            $activity->setType($datas['type']);
+        }
+        if(isset($datas['content'])) {
+            $activity->setContent($datas['content']);
+        }
+        if(isset($datas['source'])) {
+            $activity->setSource($datas['source']);
+        }
 
         return $this->fromEntity($activity);
     }

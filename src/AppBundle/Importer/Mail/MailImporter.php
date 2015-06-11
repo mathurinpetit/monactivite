@@ -67,9 +67,9 @@ class MailImporter extends Importer
         $date = $parsedMail->getMail()->getHeaderField("Date");
         $author = $parsedMail->getMail()->getHeaderField("From");
 
-        $destination = null;
+        $recipient = null;
         foreach($parsedMail->getAllEmailAddresses(array('to')) as $address) {
-            $destination = $address;
+            $recipient = $address;
         }
 
         $html2text = new Html2Text($parsedMail->getPrimaryContent());
@@ -81,7 +81,8 @@ class MailImporter extends Importer
                 'author' => $author,
                 'executed_at' => $date,
                 'content' => $body,
-                'destination' => $destination,
+                'recipient' => $recipient,
+                'type' => 'Mail',
                 'source' => sprintf("%s <%s>", $sourceName, $source),
             ));
 

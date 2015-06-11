@@ -40,7 +40,6 @@ class FeedImporter extends Importer
                     'executed_at' => $item->getDate(),
                     'content' => $item->getContent(),
                     'author' => $author,
-                    'destination' => null,
                     'source' => sprintf("%s <%s>", $sourceName, $source),
                 ));
 

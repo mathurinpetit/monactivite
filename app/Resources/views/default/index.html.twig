@@ -1,5 +1,62 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Homepage.
+    
+<div class="row">
+    <div class="col-lg-8 col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h3 class="panel-title">Lundi 8 Juin 2015</h3></div>
+            <ul class="list-group">
+                {% for activity in activities %}
+                    <li class="list-group-item">
+                        <p class="list-group-item-text">
+                            {% if(activity.type == "Commit") %}
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-cog"></span></button>
+                                <button class="btn btn-sm btn-info">Tag</button>
+                            </div>
+
+                            <div class="btn-group pull-right" style="opacity: 0.5;">
+                                <button class="btn btn-xs btn-default">{{ activity.getSourceHuman() }}</button>
+                                <button class="btn btn-xs btn-default">{{ activity.type }}</button>
+                                <button class="btn btn-xs btn-default">{{ activity.getAuthorHuman() }}</button>
+                            </div>
+                            {% endif %}
+                            {% if(activity.type == "Mail") %}
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-envelope"></span></button>
+                                <button class="btn btn-sm btn-warning">Tag</button>
+                            </div>
+
+                            <div class="btn-group pull-right" style="opacity: 0.5;">
+                                <button class="btn btn-xs btn-default">{{ activity.getSourceHuman() }}</button>
+                                <button class="btn btn-xs btn-default">{{ activity.type }}</button>
+                                <button class="btn btn-xs btn-default">{{ activity.getAuthorHuman() }}</button>
+                                <button class="btn btn-xs btn-default">{{ activity.getRecipient() }}</button>
+                            </div>
+                            {% endif %}
+                            {% if(activity.type == "") %}
+                            <div class="btn-group">
+                                <button class="btn btn-sm btn-default"><span class="glyphicon glyphicon-file"></span></button>
+                            </div>
+
+                            <div class="btn-group pull-right" style="opacity: 0.5;">
+                                <button class="btn btn-xs btn-default">{{ activity.getSourceHuman() }}</button>
+                            </div>
+                            {% endif %}
+                            
+                            
+                        </p>
+                        <h5 class="list-group-item-heading">{{ activity.title }}<!--<small>
+                                {{ activity.getSourceHuman() }} : 
+                                {% if(activity.type) %} {{ activity.type }} de {% endif %}
+                                {{ activity.getAuthorHuman() }}
+                                {% if(activity.recipient) %} à {{ activity.recipient }}{% endif %}</small>--><!--<span class="badge pull-right">4</span>--><span class="pull-right text-muted">{{ activity.executedAt | date('H:i') }}</span></h5>
+
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
