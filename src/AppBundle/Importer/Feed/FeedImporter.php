@@ -4,6 +4,8 @@ namespace AppBundle\Importer\Feed;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Importer\Importer;
+use AppBundle\Entity\Activity;
+use AppBundle\Entity\ActivityAttribute;
 
 class FeedImporter extends Importer
 {
@@ -34,17 +36,41 @@ class FeedImporter extends Importer
         foreach($feed->getItems() as $item) {
             $author = $item->getAuthor() ? $item->getAuthor() : null;
             
-            try {
-                $activity = $this->am->fromArray(array(
-                    'title' => $item->getTitle(),
-                    'executed_at' => $item->getDate(),
-                    'content' => $item->getContent(),
-                    'author' => $author,
-                    'source' => sprintf("%s <%s>", $sourceName, $source),
-                ));
+            $activity = new Activity();
+            $activity->setExecutedAt($item->getDate());
+            $activity->setTitle($item->getTitle());
+            $activity->setContent($item->getContent());
 
+            if($sourceName) {
+                $name = new ActivityAttribute();
+                $name->setName("Name");
+                $name->setValue($sourceName);
+            }
+
+            if($item->getAuthor()) {
+                $author = new ActivityAttribute();
+                $author->setName("Author");
+                $author->setValue($item->getAuthor());
+            }
+
+            if(isset($name)) {
+                $activity->addAttribute($name);
+            }
+
+            if(isset($author)) {
+                $activity->addAttribute($author);
+            }
+
+            try {
+                $this->am->addFromEntity($activity);
 
                 if(!$dryrun) {
+                    if(isset($name)) {
+                        $this->em->persist($name);
+                    }
+                    if(isset($author)) {
+                        $this->em->persist($author);
+                    }
                     $this->em->persist($activity);
                     $this->em->flush($activity);
                 }

@@ -36,11 +36,10 @@ class ActivityAttribute
     private $value;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ActivityAttribute", inversedBy="attributes")
+     * @ORM\ManyToOne(targetEntity="Activity", inversedBy="attributes")
      * @ORM\JoinColumn(name="activity_id", referencedColumnName="id")
      */
     protected $activity;
-
 
     /**
      * Get id
@@ -101,10 +100,10 @@ class ActivityAttribute
     /**
      * Set activity
      *
-     * @param \AppBundle\Entity\ActivityAttribute $activity
+     * @param \AppBundle\Entity\Activity $activity
      * @return ActivityAttribute
      */
-    public function setActivity(\AppBundle\Entity\ActivityAttribute $activity = null)
+    public function setActivity(\AppBundle\Entity\Activity $activity = null)
     {
         $this->activity = $activity;
 
@@ -114,7 +113,7 @@ class ActivityAttribute
     /**
      * Get activity
      *
-     * @return \AppBundle\Entity\ActivityAttribute 
+     * @return \AppBundle\Entity\Activity 
      */
     public function getActivity()
     {

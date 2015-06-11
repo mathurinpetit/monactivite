@@ -16,8 +16,9 @@ class ActivityRepository extends EntityRepository
 
         return $this->getEntityManager()
                     ->createQuery('
-                            SELECT a 
+                            SELECT a, at
                             FROM AppBundle:Activity a
+                            LEFT JOIN a.attributes at
                             ORDER BY a.executedAt DESC
                   ')->getResult();
     }

@@ -16,13 +16,13 @@ class ActivityManager
         $this->repository = $em->getRepository('AppBundle:Activity');
     }
 
-    public function fromEntity(Activity $activity) {
+    public function addFromEntity(Activity $activity) {
         if(!$activity->getExecutedAt()) {
             throw new \Exception("Date is required");
         }
 
         if(!$activity->getTitle()) {
-            throw new \Exception("Ttitle is required");
+            throw new \Exception("Title is required");
         }
 
         $activity->setSlug(md5($this->slugger->slugify(sprintf("%s_%s", $activity->getExecutedAt()->format('Y-m-d H:i-s'), $activity->getTitle()))));
@@ -33,36 +33,4 @@ class ActivityManager
         
         return $activity;
     }
-
-    public function fromArray($datas) {
-        $activity = new Activity();
-
-        if(isset($datas['executed_at']) && $datas['executed_at'] instanceof \DateTime) {
-            $activity->setExecutedAt($datas['executed_at']);
-        } elseif(isset($datas['executed_at']) && $datas['executed_at']) {
-            $activity->setExecutedAt(new \DateTime($datas['executed_at']));
-        }
-
-        if(isset($datas['title'])) {
-            $activity->setTitle($datas['title']);
-        }
-        if(isset($datas['author'])) {
-            $activity->setAuthor($datas['author']);
-        }
-        if(isset($datas['recipient'])) {
-            $activity->setRecipient($datas['recipient']);
-        }
-        if(isset($datas['type'])) {
-            $activity->setType($datas['type']);
-        }
-        if(isset($datas['content'])) {
-            $activity->setContent($datas['content']);
-        }
-        if(isset($datas['source'])) {
-            $activity->setSource($datas['source']);
-        }
-
-        return $this->fromEntity($activity);
-    }
-
 }

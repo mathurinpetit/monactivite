@@ -17,7 +17,7 @@ class ImporterCommand extends ContainerAwareCommand
             ->setDescription('Run importer')
             ->addArgument('name', InputArgument::REQUIRED, 'Name of the importer')
             ->addArgument('source', InputArgument::REQUIRED, 'Source')
-            ->addArgument('source-name', InputArgument::OPTIONAL, 'Source name')
+            ->addArgument('source-name', InputArgument::REQUIRED, 'Source name')
             ->addOption('dry-run', 't', InputOption::VALUE_NONE, 'Try import but not store in database')
         ;
     }

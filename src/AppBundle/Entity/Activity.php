@@ -51,7 +51,7 @@ class Activity
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="ActivityAttribute", mappedBy="attribute")
+     * @ORM\OneToMany(targetEntity="ActivityAttribute", mappedBy="activity")
      */
     protected $attributes;
     
@@ -174,6 +174,7 @@ class Activity
     public function addAttribute(\AppBundle\Entity\ActivityAttribute $attributes)
     {
         $this->attributes[] = $attributes;
+        $attributes->setActivity($this);
 
         return $this;
     }

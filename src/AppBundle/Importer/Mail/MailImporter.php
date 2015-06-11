@@ -5,6 +5,8 @@ namespace AppBundle\Importer\Mail;
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Importer\Importer;
 use Html2Text\Html2Text;
+use AppBundle\Entity\Activity;
+use AppBundle\Entity\ActivityAttribute;
 
 class MailImporter extends Importer
 {
@@ -67,35 +69,45 @@ class MailImporter extends Importer
         $date = $parsedMail->getMail()->getHeaderField("Date");
         $author = $parsedMail->getMail()->getHeaderField("From");
 
-        $recipient = null;
+        $to = null;
         foreach($parsedMail->getAllEmailAddresses(array('to')) as $address) {
-            $recipient = $address;
+            $to = $address;
         }
 
         $html2text = new Html2Text($parsedMail->getPrimaryContent());
         $body = $html2text->get_text();
 
+        $activity = new Activity();
+        $activity->setExecutedAt(new \DateTime($date));
+        $activity->setTitle($subject);
+        $activity->setContent($body);
+
+        $sender = new ActivityAttribute();
+        $sender->setName("Sender");
+        $sender->setValue($author);
+
+        $recipient = new ActivityAttribute();
+        $recipient->setName("Recipient");
+        $recipient->setValue($to);
+
+        $activity->addAttribute($sender);
+        $activity->addAttribute($recipient);
+
         try {
-            $activity = $this->am->fromArray(array(
-                'title' => $subject,
-                'author' => $author,
-                'executed_at' => $date,
-                'content' => $body,
-                'recipient' => $recipient,
-                'type' => 'Mail',
-                'source' => sprintf("%s <%s>", $sourceName, $source),
-            ));
+            $this->am->addFromEntity($activity);
 
             if(!$dryrun) {
+                $this->em->persist($sender);
+                $this->em->persist($recipient);
                 $this->em->persist($activity);
                 $this->em->flush($activity);
             }
             if($output->isVerbose()) {
-                $output->writeln(sprintf("<info>Imported</info>;%s;%s", $date, $subject));
+                $output->writeln(sprintf("<info>Imported</info>;%s", $activity->getTitle()));
             }
         } catch (\Exception $e) {
             if($output->isVerbose()) {
-                $output->writeln(sprintf("<error>%s</error>;%s;%s", $e->getMessage(), $date, $subject));
+                $output->writeln(sprintf("<error>%s</error>;%s", $e->getMessage(), $activity->getTitle()));
             }
 
             return false;
