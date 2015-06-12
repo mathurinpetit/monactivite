@@ -29,15 +29,15 @@
                             </div>
                             </div>
                             <div style="width: 0; padding-top: 4px; padding-bottom: 3px; padding-right: 30px; " class="col-xs-1 text-left text-muted">
-                               <span>{{ activity.executedAt | date('H') }}</span>&nbsp;<small>h</small>
+                               <span>{{ activity.executedAt | date('H') }}</span><small>h</small>
                             </div>
-                            <div class="col-xs-9" style="padding-top: 4px; padding-bottom: 3px;">
-                            <span>{{ activity.title }}</span>
-                            <small class="text-muted hidden" style="opacity: 0.7; padding-bottom: 0;">
+                            <div class="col-xs-10" style="padding-top: 4px; padding-bottom: 3px;">
+                            <span>{{ activity.title }}</span>&nbsp;&nbsp;
+                            <div class="btn-group text-muted hidden">
                             {% for attribute in activity.getAttributes() %}
-                                {{ attribute.value }},
+                                <a class="btn btn-xs btn-default" style="padding: 0 3px;" href="">{{ attribute.value }}</a>
                             {% endfor %}
-                            </small>
+                            </div>
                             </div>
                             
                             <div class="clearfix"></div>

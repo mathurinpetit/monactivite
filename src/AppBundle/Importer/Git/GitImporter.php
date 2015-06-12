@@ -34,7 +34,7 @@ class GitImporter extends Importer
 
             $author = new ActivityAttribute();
             $author->setName("Author");
-            $author->setValue(isset($datas[2]) ? trim($datas[2]) : null);
+            $author->setValue(isset($datas[2]) ? trim(preg_replace("/^.+<(.+)>$/", '\1', $datas[2])) : null);
 
             $activity->addAttribute($type);
             $activity->addAttribute($repository);

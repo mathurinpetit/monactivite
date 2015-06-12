@@ -67,7 +67,11 @@ class MailImporter extends Importer
         }
 
         $date = $parsedMail->getMail()->getHeaderField("Date");
-        $author = $parsedMail->getMail()->getHeaderField("From");
+
+        $from = null;
+        foreach($parsedMail->getAllEmailAddresses(array('from')) as $address) {
+            $from = $address;
+        }
 
         $to = null;
         foreach($parsedMail->getAllEmailAddresses(array('to')) as $address) {
@@ -86,10 +90,10 @@ class MailImporter extends Importer
         $type->setName("Type");
         $type->setValue("Mail");
 
-        if($author) {
+        if($from) {
             $sender = new ActivityAttribute();
             $sender->setName("Sender");
-            $sender->setValue($author);
+            $sender->setValue($from);
         }
 
         if($to) {

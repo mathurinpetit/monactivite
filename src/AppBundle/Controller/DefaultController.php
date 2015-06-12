@@ -17,7 +17,7 @@ class DefaultController extends Controller
 
         $activitiesByDates = array();
 
-        for($i=0;$i<20;$i++) {
+        for($i = 0; $i < 20; $i++) {
             $date = new \DateTime(date('Y-m-d 05:00:00'));
             $date->modify("- ".$i."days");
 
