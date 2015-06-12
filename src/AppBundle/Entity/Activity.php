@@ -238,4 +238,14 @@ class Activity
     {
         return $this->tags;
     }
+
+    public function getTagsReverse()
+    {
+        $tags = array();
+
+        foreach($this->tags as $tag) {
+           $tags[] = $tag; 
+        }
+        return array_reverse($tags);
+    }
 }

@@ -17,13 +17,15 @@ class DefaultController extends Controller
 
         $activitiesByDates = array();
 
-        for($i=0;$i<7;$i++) {
-            $date = new \DateTime("2015-06-11");
+        for($i=0;$i<14;$i++) {
+            $date = new \DateTime(date('Y-m-d'));
             $date->modify("- ".$i."days");
 
             $activitiesByDates[$date->format('Y-m-d')] = $repo->findByDate($date);
         }
 
-        return $this->render('default/index.html.twig', array('activitiesByDates' => $activitiesByDates));
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+
+        return $this->render('default/index.html.twig', array('activitiesByDates' => $activitiesByDates, 'tags' => $tags));
     }
 }
