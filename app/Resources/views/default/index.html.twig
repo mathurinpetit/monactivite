@@ -21,17 +21,17 @@
                             <div style="width: 130px; padding-right: 0; padding-left:0;" class="col-xs-2 text-left text-muted">
                             <div class="btn-group">
                                 {% for i in 0..(3 - activity.tags | length) %}
-                                <button style="width: 32px; opacity: 0.05" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button style="width: 32px; opacity: 0" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
                                 {% endfor %}
                                 {% for tag in activity.getTagsReverse() %}
-                                <button title="{{ tag.name }}" style="width: 32px;border-color: #fff;{% if(tag.color) %}color: white; border-color: {{ tag.color }}; background: {{ tag.color }}{% endif %}" class="btn btn-sm btn-default">{% if(tag.icon) %}<span class="glyphicon glyphicon-{{ tag.icon }}"></span> {% endif %}{% if(not tag.icon) %}{{ tag.name | slice(0, 1) }}{% endif %}</button>
+                                <button title="{{ tag.name }}" style="padding-left: 2px; padding-right: 2px;width: 32px;border-color: #fff;{% if(tag.color) %}color: white; border-color: {{ tag.color }}; background: {{ tag.color }}{% endif %}" class="btn btn-sm btn-default">{% if(tag.icon) %}<span class="glyphicon glyphicon-{{ tag.icon }}"></span> {% endif %}{% if(not tag.icon) %}{{ tag.name | slice(0, 2) | upper }}</small>{% endif %}</button>
                                 {% endfor %}
                             </div>
                             </div>
                             <div style="width: 0; padding-top: 4px; padding-bottom: 3px; padding-right: 30px; " class="col-xs-1 text-left text-muted">
                                <span>{{ activity.executedAt | date('H') }}</span>&nbsp;<small>h</small>
                             </div>
-                            <div class="col-xs-10" style="padding-top: 4px; padding-bottom: 3px;">
+                            <div class="col-xs-9" style="padding-top: 4px; padding-bottom: 3px;">
                             <span>{{ activity.title }}</span>
                             <small class="text-muted hidden" style="opacity: 0.7; padding-bottom: 0;">
                             {% for attribute in activity.getAttributes() %}
