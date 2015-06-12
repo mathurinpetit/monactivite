@@ -22,7 +22,19 @@ services:
 
     app.importer.manager:
         class: AppBundle\Importer\ImporterManager
-        arguments: [[app.importer.git, app.importer.mail, app.importer.feed]]
+        arguments: [[@app.importer.git, @app.importer.mail, @app.importer.feed]]
+
+    app.manager.filter:
+        class: AppBundle\Manager\FilterManager
+        arguments: [@doctrine.orm.entity_manager, @app.slugger]
+
+    app.manager.source:
+        class: AppBundle\Manager\SourceManager
+        arguments: [@doctrine.orm.entity_manager, @app.slugger, @app.importer.manager]
+
+    app.manager.main:
+        class: AppBundle\Manager\MainManager
+        arguments: [@app.activity.manager, @app.importer.manager, @app.manager.filter, @app.manager.source]
 
     app.importer.git:
         class: AppBundle\Importer\Git\GitImporter

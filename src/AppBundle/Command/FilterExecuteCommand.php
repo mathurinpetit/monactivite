@@ -21,12 +21,12 @@ class FilterExecuteCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $am = $this->getContainer()->get('app.activity.manager');
+        $mm = $this->getContainer()->get('app.main.manager');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
         $filter = $em->getRepository('AppBundle:Filter')->find($input->getArgument('filter_id'));
 
-        $nbUpdated = $am->executeFilter($filter);
+        $nbUpdated = $mm->executeFilter($filter);
 
         $em->flush();
 

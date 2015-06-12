@@ -1,0 +1,34 @@
+<?php 
+
+namespace AppBundle\Manager;
+
+use AppBundle\Entity\Source;
+use Symfony\Component\Console\Output\OutputInterface;
+    
+class SourceManager
+{
+    protected $em;
+    protected $repository;
+    protected $slugger;
+    protected $im;
+
+    public function __construct($em, $slugger, $im) {
+        $this->em = $em;
+        $this->repository = $em->getRepository('AppBundle:Source');
+        $this->slugger = $slugger;
+        $this->im = $im;
+    }
+
+    public function executeSource(Source $source, OutputInterface $output, $dryRun = false) {
+
+        return $this->im->execute($source->getImporter(), $source->getSource(), $source->getName(), $output, $dryRun);
+    }
+
+    public function executeAllSources(OutputInterface $output, $dryRun = false) {
+        $sources = $this->repository->findAll();
+        foreach($sources as $source) {
+            $this->executeSource($source, $output, $dryRun);
+        }
+    }
+
+}

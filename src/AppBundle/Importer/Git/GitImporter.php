@@ -9,6 +9,11 @@ use AppBundle\Entity\ActivityAttribute;
 
 class GitImporter extends Importer
 {
+    public function getName() {
+
+        return 'Git';
+    }
+
     public function run($source, $sourceName = null, OutputInterface $output, $dryrun = false) {
         $output->writeln(sprintf("<comment>Started import git commit in %s</comment>", $source));
 

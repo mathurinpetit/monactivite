@@ -24,11 +24,13 @@ class ImporterCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $importer = $this->getContainer()->get('app.importer.'.$input->getArgument('name'));
-        
-        $importer->check($input->getArgument('source'));
-        $importer->run($input->getArgument('source'), $input->getArgument('source-name'), $output, $input->getOption('dry-run'));
+        $im = $this->getContainer()->get('app.importer.manager');
+
+        $im->execute($input->getArgument('name'), 
+                     $input->getArgument('source'), 
+                     $input->getArgument('source-name'), 
+                     $output, 
+                     $input->getOption('dry-run'));
     }
 }
 ?>

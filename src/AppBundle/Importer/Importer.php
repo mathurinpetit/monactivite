@@ -33,6 +33,8 @@ abstract class Importer
 
     public abstract function getRootDir();
 
+    public abstract function getName();
+
     public function getVarDir() {
 
         return $this->getRootDir()."/var";

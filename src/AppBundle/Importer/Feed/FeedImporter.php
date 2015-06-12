@@ -11,6 +11,11 @@ class FeedImporter extends Importer
 {
     protected $feedParser;
 
+    public function getName() {
+
+        return 'Feed';
+    }
+
     public function __construct($am, $em, $feedParser)
     {
         parent::__construct($am, $em);

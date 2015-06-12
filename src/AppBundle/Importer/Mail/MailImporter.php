@@ -12,6 +12,11 @@ class MailImporter extends Importer
 {
     protected $mailParser;
 
+    public function getName() {
+
+        return 'Mail';
+    }
+
     public function __construct($am, $em, $mailParser)
     {
         parent::__construct($am, $em);
