@@ -4,17 +4,20 @@ namespace AppBundle\Activity;
 
 use AppBundle\Entity\Activity;
 use AppBundle\Entity\Filter;
+use AppBundle\Entity\Source;
 
 class ActivityManager
 {
     protected $em;
     protected $repository;
     protected $slugger;
+    protected $im;
 
-    public function __construct($em, $slugger) {
+    public function __construct($em, $slugger, $im) {
         $this->em = $em;
-        $this->slugger = $slugger;
         $this->repository = $em->getRepository('AppBundle:Activity');
+        $this->slugger = $slugger;
+        $this->im = $im;
     }
 
     public function addFromEntity(Activity $activity) {
@@ -33,6 +36,13 @@ class ActivityManager
         }
         
         return $activity;
+    }
+
+    public function executeSource(Source $source) {
+        /*$importer = $this->getContainer()->get('app.importer.'.$input->getArgument('name'));
+        
+        $importer->check($input->getArgument('source'));
+        $importer->run($input->getArgument('source'), $input->getArgument('source-name'), $output, $input->getOption('dry-run'));*/
     }
 
     public function executeFilter(Filter $filter) {

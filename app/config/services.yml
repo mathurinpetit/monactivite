@@ -20,6 +20,10 @@ services:
         class: AppBundle\Activity\ActivityManager
         arguments: [@doctrine.orm.entity_manager, @app.slugger]
 
+    app.importer.manager:
+        class: AppBundle\Importer\ImporterManager
+        arguments: [[app.importer.git, app.importer.mail, app.importer.feed]]
+
     app.importer.git:
         class: AppBundle\Importer\Git\GitImporter
         arguments: [@app.activity.manager, @doctrine.orm.entity_manager]
