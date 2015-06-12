@@ -86,25 +86,39 @@ class MailImporter extends Importer
         $type->setName("Type");
         $type->setValue("Mail");
 
-        $sender = new ActivityAttribute();
-        $sender->setName("Sender");
-        $sender->setValue($author);
+        if($author) {
+            $sender = new ActivityAttribute();
+            $sender->setName("Sender");
+            $sender->setValue($author);
+        }
 
-        $recipient = new ActivityAttribute();
-        $recipient->setName("Recipient");
-        $recipient->setValue($to);
+        if($to) {
+            $recipient = new ActivityAttribute();
+            $recipient->setName("Recipient");
+            $recipient->setValue($to);
+        }
 
         $activity->addAttribute($type);
-        $activity->addAttribute($sender);
-        $activity->addAttribute($recipient);
+
+        if(isset($sender)) {
+            $activity->addAttribute($sender);
+        }
+
+        if(isset($recipient)) {
+            $activity->addAttribute($recipient);
+        }
 
         try {
             $this->am->addFromEntity($activity);
 
             if(!$dryrun) {
                 $this->em->persist($type);
-                $this->em->persist($sender);
-                $this->em->persist($recipient);
+                if(isset($sender)) {
+                    $this->em->persist($sender);
+                }
+                if(isset($recipient)) {
+                    $this->em->persist($recipient);
+                }
                 $this->em->persist($activity);
                 $this->em->flush($activity);
             }

@@ -10,6 +10,11 @@
             <ul class="list-group">
                 {% for activity in activities %}
                     <li class="list-group-item">
+                        <div class="btn-group">
+                            {% for tag in activity.getTags() %}
+                            <button class="btn btn-sm btn-default">{% if(tag.icon) %}<span class="glyphicon glyphicon-{{ tag.icon }}"></span> {% endif %}{{ tag.name }}</button>
+                            {% endfor %}
+                        </div><br />
                         {{ activity.title }}
                         <small><ul class="list-inline text-muted">
                         {% for attribute in activity.getAttributes() %}

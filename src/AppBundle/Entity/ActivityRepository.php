@@ -19,7 +19,7 @@ class ActivityRepository extends EntityRepository
         $dateFrom->modify("+1 day");
 
         return $this->getEntityManager()
-                    ->createQuery('
+                     ->createQuery('
                             SELECT a, at
                             FROM AppBundle:Activity a
                             LEFT JOIN a.attributes at
@@ -28,6 +28,22 @@ class ActivityRepository extends EntityRepository
                   ')
                    ->setParameter('date_from', $date)
                    ->setParameter('date_to', $dateFrom)
+                   ->getResult();
+    }
+
+    public function findByFilter($filter) {
+        
+        $query = explode(":", $filter->getQuery());
+
+        return $this->getEntityManager()
+                    ->createQuery('
+                            SELECT a
+                            FROM AppBundle:Activity a
+                            JOIN a.attributes at WITH at.name = :name AND at.value = :value
+                            ORDER BY a.executedAt DESC
+                  ')
+                   ->setParameter('name', trim($query[0]))
+                   ->setParameter('value', trim($query[1]))
                    ->getResult();
     }
 }

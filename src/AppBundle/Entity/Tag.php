@@ -31,14 +31,14 @@ class Tag
     /**
      * @var string
      *
-     * @ORM\Column(name="color", type="string", length=255)
+     * @ORM\Column(name="color", type="string", length=255, nullable=true)
      */
     private $color;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="icon", type="string", length=255)
+     * @ORM\Column(name="icon", type="string", length=255, nullable=true)
      */
     private $icon;
 

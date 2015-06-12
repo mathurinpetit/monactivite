@@ -3,6 +3,7 @@
 namespace AppBundle\Activity;
 
 use AppBundle\Entity\Activity;
+use AppBundle\Entity\Filter;
 
 class ActivityManager
 {
@@ -32,5 +33,16 @@ class ActivityManager
         }
         
         return $activity;
+    }
+
+    public function executeFilter(Filter $filter) {
+        $activities = $this->repository->findByFilter($filter);
+
+        foreach($activities as $activity) {
+            $activity->addTag($filter->getTag());
+            $this->em->persist($activity);
+        }
+
+        return count($activities);
     }
 }

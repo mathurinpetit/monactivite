@@ -213,6 +213,7 @@ class Activity
      */
     public function addTag(\AppBundle\Entity\Tag $tags)
     {
+        $tags->addActivity($this);
         $this->tags[] = $tags;
 
         return $this;
