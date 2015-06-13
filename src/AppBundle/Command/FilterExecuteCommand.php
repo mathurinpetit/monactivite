@@ -15,7 +15,7 @@ class FilterExecuteCommand extends ContainerAwareCommand
         $this
             ->setName('monactivite:filter:execute')
             ->setDescription('Apply a filter on activities')
-            ->addArgument('filter_id', InputArgument::REQUIRED, 'Filter id')
+            ->addArgument('filter-id', InputArgument::REQUIRED, 'Filter id')
         ;
     }
 
@@ -24,7 +24,12 @@ class FilterExecuteCommand extends ContainerAwareCommand
         $mm = $this->getContainer()->get('app.manager.main');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
-        $filter = $em->getRepository('AppBundle:Filter')->find($input->getArgument('filter_id'));
+        $filter = $em->getRepository('AppBundle:Filter')->find($input->getArgument('filter-id'));
+
+        if(!$filter) {
+
+            throw new \Exception(sprintf("Filter %s not found", $input->getArgument('name')));
+        }
 
         $nbUpdated = $mm->executeFilter($filter);
 

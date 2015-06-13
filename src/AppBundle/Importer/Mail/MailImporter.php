@@ -76,11 +76,13 @@ class MailImporter extends Importer
         $from = null;
         foreach($parsedMail->getAllEmailAddresses(array('from')) as $address) {
             $from = $address;
+            break;
         }
 
         $to = null;
         foreach($parsedMail->getAllEmailAddresses(array('to')) as $address) {
             $to = $address;
+            break;
         }
 
         $html2text = new Html2Text($parsedMail->getPrimaryContent());

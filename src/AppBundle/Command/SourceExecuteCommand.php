@@ -26,6 +26,11 @@ class SourceExecuteCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
         $source = $em->getRepository('AppBundle:Source')->findOneBy(array('name' => $input->getArgument('name')));
+
+        if(!$source) {
+
+            throw new \Exception(sprintf("Source \"%s\" not found", $input->getArgument('name')));
+        }
         
         $mm->executeSource($source, 
                            $output, 

@@ -17,13 +17,13 @@ class LoadTagData extends AbstractFixture implements OrderedFixtureInterface
         $tagCommit = new Tag();
         $tagCommit->setName('Commit');
         $tagCommit->setIcon('cog');
-        $tagCommit->setColor('#fff');
+        $tagCommit->setColor(null);
         $manager->persist($tagCommit);
 
         $tagMail = new Tag();
         $tagMail->setName('Mail');
         $tagMail->setIcon('envelope');
-        $tagMail->setColor('#fff');
+        $tagMail->setColor(null);
         $manager->persist($tagMail);
 
         $manager->flush();
