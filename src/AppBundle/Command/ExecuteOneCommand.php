@@ -8,14 +8,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FilterExecuteCommand extends ContainerAwareCommand
+class ExecuteOneCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('monactivite:filter:execute')
-            ->setDescription('Apply a filter on activities')
-            ->addArgument('filter_id', InputArgument::REQUIRED, 'Filter id')
+            ->setName('monactivite:execute:one')
+            ->addArgument('source-name', InputArgument::REQUIRED, 'Source name')
+            ->setDescription('Execute a source and filters')
+            ->addOption('dry-run', 't', InputOption::VALUE_NONE, 'Try import but not store in database')
         ;
     }
 
@@ -23,14 +24,12 @@ class FilterExecuteCommand extends ContainerAwareCommand
     {
         $mm = $this->getContainer()->get('app.manager.main');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+
+        $source = $em->getRepository('AppBundle:Source')->findOneBy(array('name' => $input->getArgument('source-name')));
         
-        $filter = $em->getRepository('AppBundle:Filter')->find($input->getArgument('filter_id'));
-
-        $nbUpdated = $mm->executeFilter($filter);
-
-        $em->flush();
-
-        $output->writeln(sprintf("tag <comment>\"%s\"</comment> has been <info>added</info> in <comment>%s</comment> activity</info>", $filter->getTag()->getName(), $nbUpdated));
+        $mm->executeOne($source, 
+                        $output, 
+                        $input->getOption('dry-run'));
     }
 }
 ?>

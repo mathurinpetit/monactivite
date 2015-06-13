@@ -16,12 +16,12 @@ services:
         class: PicoFeed\Reader\Reader
         arguments: []
 
-    app.activity.manager:
-        class: AppBundle\Activity\ActivityManager
+    app.manager.activity:
+        class: AppBundle\Manager\ActivityManager
         arguments: [@doctrine.orm.entity_manager, @app.slugger]
 
-    app.importer.manager:
-        class: AppBundle\Importer\ImporterManager
+    app.manager.importer:
+        class: AppBundle\Manager\ImporterManager
         arguments: [[@app.importer.git, @app.importer.mail, @app.importer.feed]]
 
     app.manager.filter:
@@ -30,20 +30,20 @@ services:
 
     app.manager.source:
         class: AppBundle\Manager\SourceManager
-        arguments: [@doctrine.orm.entity_manager, @app.slugger, @app.importer.manager]
+        arguments: [@doctrine.orm.entity_manager, @app.slugger, @app.manager.importer]
 
     app.manager.main:
         class: AppBundle\Manager\MainManager
-        arguments: [@app.activity.manager, @app.importer.manager, @app.manager.filter, @app.manager.source]
+        arguments: [@app.manager.activity, @app.manager.importer, @app.manager.filter, @app.manager.source]
 
     app.importer.git:
         class: AppBundle\Importer\Git\GitImporter
-        arguments: [@app.activity.manager, @doctrine.orm.entity_manager]
+        arguments: [@app.manager.activity, @doctrine.orm.entity_manager]
 
     app.importer.mail:
         class: AppBundle\Importer\Mail\MailImporter
-        arguments: [@app.activity.manager, @doctrine.orm.entity_manager, @app.mail.parser]
+        arguments: [@app.manager.activity, @doctrine.orm.entity_manager, @app.mail.parser]
 
     app.importer.feed:
         class: AppBundle\Importer\Feed\FeedImporter
-        arguments: [@app.activity.manager, @doctrine.orm.entity_manager, @app.feed.parser]
+        arguments: [@app.manager.activity, @doctrine.orm.entity_manager, @app.feed.parser]

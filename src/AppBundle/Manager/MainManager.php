@@ -21,17 +21,32 @@ class MainManager
 
     public function executeSource(Source $source, OutputInterface $output, $dryRun = false) {
 
-        return $this->sm->executeSource($source, $output, $dryRun);
+        return $this->sm->executeOne($source, $output, $dryRun);
     }
 
     public function executeAllSources(OutputInterface $output, $dryRun = false) {
 
-        return $this->sm->executeAllSources($output, $dryRun);
+        return $this->sm->executeAll($output, $dryRun);
     }
 
     public function executeFilter(Filter $filter) {
         
-        return $this->fm->executeFilter($filter);
+        return $this->fm->executeOne($filter);
+    }
+
+    public function executeAllFilters() {
+        
+        return $this->fm->executeAll();
+    }
+
+    public function executeOne(Source $source, OutputInterface $output, $dryRun = false) {
+        $this->executeSource($source, $output, $dryRun);
+        $this->executeAllFilters();
+    }
+
+    public function executeAll(OutputInterface $output, $dryRun = false) {
+        $this->executeAllSources($output, $dryRun);
+        $this->executeAllFilters();
     }
 
 }

@@ -1,6 +1,6 @@
 <?php 
 
-namespace AppBundle\Activity;
+namespace AppBundle\Manager;
 
 use AppBundle\Entity\Activity;
 use AppBundle\Entity\Filter;

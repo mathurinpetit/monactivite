@@ -19,15 +19,15 @@ class SourceManager
         $this->im = $im;
     }
 
-    public function executeSource(Source $source, OutputInterface $output, $dryRun = false) {
+    public function executeOne(Source $source, OutputInterface $output, $dryRun = false) {
 
         return $this->im->execute($source->getImporter(), $source->getSource(), $source->getName(), $output, $dryRun);
     }
 
-    public function executeAllSources(OutputInterface $output, $dryRun = false) {
+    public function executeAll(OutputInterface $output, $dryRun = false) {
         $sources = $this->repository->findAll();
         foreach($sources as $source) {
-            $this->executeSource($source, $output, $dryRun);
+            $this->executeOne($source, $output, $dryRun);
         }
     }
 

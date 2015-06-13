@@ -24,7 +24,7 @@ class ActivityAddCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $am = $this->getContainer()->get('app.activity.manager');
+        $am = $this->getContainer()->get('app.manager.activity');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
         $activity = $am->fromArray(array(

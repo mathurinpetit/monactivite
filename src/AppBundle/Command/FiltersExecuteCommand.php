@@ -8,14 +8,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class FilterExecuteCommand extends ContainerAwareCommand
+class FiltersExecuteCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
         $this
-            ->setName('monactivite:filter:execute')
-            ->setDescription('Apply a filter on activities')
-            ->addArgument('filter_id', InputArgument::REQUIRED, 'Filter id')
+            ->setName('monactivite:filters:execute')
+            ->setDescription('Apply all filters on activities')
         ;
     }
 
@@ -24,13 +23,11 @@ class FilterExecuteCommand extends ContainerAwareCommand
         $mm = $this->getContainer()->get('app.manager.main');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
-        $filter = $em->getRepository('AppBundle:Filter')->find($input->getArgument('filter_id'));
-
-        $nbUpdated = $mm->executeFilter($filter);
+        $nbUpdated = $mm->executeAllFilters();
 
         $em->flush();
 
-        $output->writeln(sprintf("tag <comment>\"%s\"</comment> has been <info>added</info> in <comment>%s</comment> activity</info>", $filter->getTag()->getName(), $nbUpdated));
+        $output->writeln(sprintf("tags has been <info>added</info> in <comment>%s</comment> activity</info>", $nbUpdated));
     }
 }
 ?>

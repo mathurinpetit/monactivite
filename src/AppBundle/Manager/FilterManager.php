@@ -16,8 +16,8 @@ class FilterManager
         $this->slugger = $slugger;
     }
 
-    public function executeFilter(Filter $filter) {
-        $activities = $em->getRepository('AppBundle:Activity')->findByFilter($filter);
+    public function executeOne(Filter $filter) {
+        $activities = $this->em->getRepository('AppBundle:Activity')->findByFilter($filter);
 
         foreach($activities as $activity) {
             $activity->addTag($filter->getTag());
@@ -25,5 +25,17 @@ class FilterManager
         }
 
         return count($activities);
+    }
+
+    public function executeAll() {
+        $filters = $this->repository->findAll();
+
+        $nb = 0;
+
+        foreach($filters as $filter) {
+            $nb += $this->executeOne($filter);
+        }
+
+        return $nb;
     }
 }

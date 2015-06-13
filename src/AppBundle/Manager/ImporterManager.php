@@ -1,6 +1,6 @@
 <?php 
 
-namespace AppBundle\Importer;
+namespace AppBundle\Manager;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Entity\Source;
