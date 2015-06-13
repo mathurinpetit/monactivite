@@ -37,13 +37,16 @@ class ActivityRepository extends EntityRepository
 
         return $this->getEntityManager()
                     ->createQuery('
-                            SELECT a
+                            SELECT a, t
                             FROM AppBundle:Activity a
                             JOIN a.attributes at WITH at.name = :name AND at.value = :value
+                            LEFT JOIN a.tags t WITH t = :tag
+                            WHERE t IS NULL
                             ORDER BY a.executedAt DESC
                   ')
                    ->setParameter('name', trim($query[0]))
                    ->setParameter('value', trim($query[1]))
+                   ->setParameter('tag', $filter->getTag())
                    ->getResult();
     }
 }
