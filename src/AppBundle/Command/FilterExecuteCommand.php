@@ -31,11 +31,7 @@ class FilterExecuteCommand extends ContainerAwareCommand
             throw new \Exception(sprintf("Filter %s not found", $input->getArgument('name')));
         }
 
-        $nbUpdated = $mm->executeFilter($filter);
-
-        $em->flush();
-
-        $output->writeln(sprintf("tag <comment>\"%s\"</comment> has been <info>added</info> in <comment>%s</comment> activity</info>", $filter->getTag()->getName(), $nbUpdated));
+        $mm->executeFilter($filter, $output);        
     }
 }
 ?>

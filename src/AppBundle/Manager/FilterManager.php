@@ -3,6 +3,8 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Filter;
+use Symfony\Component\Console\Output\OutputInterface;
+
     
 class FilterManager
 {
@@ -16,7 +18,7 @@ class FilterManager
         $this->slugger = $slugger;
     }
 
-    public function executeOne(Filter $filter) {
+    public function executeOne(Filter $filter, OutputInterface $output) {
         $activities = $this->em->getRepository('AppBundle:Activity')->findByFilter($filter);
 
         foreach($activities as $activity) {
@@ -24,18 +26,16 @@ class FilterManager
             $this->em->persist($activity);
         }
 
-        return count($activities);
+        $this->em->flush();
+
+        $output->writeln(sprintf("tag <comment>\"%s\"</comment> has been <info>added</info> in <comment>%s</comment> activity</info>", $filter->getTag()->getName(), count($activities)));
     }
 
-    public function executeAll() {
+    public function executeAll(OutputInterface $output) {
         $filters = $this->repository->findAll();
 
-        $nb = 0;
-
         foreach($filters as $filter) {
-            $nb += $this->executeOne($filter);
+            $this->executeOne($filter, $output);
         }
-
-        return $nb;
     }
 }

@@ -14,36 +14,33 @@ use Doctrine\ORM\Query;
 class ActivityRepository extends EntityRepository
 {
     public function findByDate($date) {
-
         $dateFrom = clone $date;
         $dateFrom->modify("+1 day");
 
         return $this->getEntityManager()
                      ->createQuery('
-                            SELECT a, at
-                            FROM AppBundle:Activity a
-                            LEFT JOIN a.attributes at
-                            WHERE a.executedAt >= :date_from AND a.executedAt < :date_to
-                            ORDER BY a.executedAt DESC
-                  ')
-                   ->setParameter('date_from', $date)
-                   ->setParameter('date_to', $dateFrom)
-                   ->getResult();
+                          SELECT a, at
+                          FROM AppBundle:Activity a
+                          LEFT JOIN a.attributes at
+                          WHERE a.executedAt >= :date_from AND a.executedAt < :date_to
+                          ORDER BY a.executedAt DESC
+                      ')
+                      ->setParameter('date_from', $date)
+                      ->setParameter('date_to', $dateFrom)
+                      ->getResult();
     }
 
     public function findByFilter($filter) {
-        
         $query = explode(":", $filter->getQuery());
 
         return $this->getEntityManager()
                     ->createQuery('
-                            SELECT a, t
-                            FROM AppBundle:Activity a
-                            JOIN a.attributes at WITH at.name = :name AND at.value = :value
-                            LEFT JOIN a.tags t WITH t = :tag
-                            WHERE t IS NULL
-                            ORDER BY a.executedAt DESC
-                  ')
+                          SELECT a
+                          FROM AppBundle:Activity a
+                          JOIN a.attributes at WITH at.name = :name AND at.value = :value
+                          WHERE a NOT IN (SELECT asub FROM AppBundle:Activity asub JOIN asub.tags tsub WITH tsub = :tag)
+                          ORDER BY a.executedAt DESC
+                    ')
                    ->setParameter('name', trim($query[0]))
                    ->setParameter('value', trim($query[1]))
                    ->setParameter('tag', $filter->getTag())

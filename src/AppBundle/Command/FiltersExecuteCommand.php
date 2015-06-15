@@ -23,11 +23,7 @@ class FiltersExecuteCommand extends ContainerAwareCommand
         $mm = $this->getContainer()->get('app.manager.main');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
-        $nbUpdated = $mm->executeAllFilters();
-
-        $em->flush();
-
-        $output->writeln(sprintf("tags has been <info>added</info> in <comment>%s</comment> activity</info>", $nbUpdated));
+        $mm->executeAllFilters($output);
     }
 }
 ?>
