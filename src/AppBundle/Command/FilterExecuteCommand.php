@@ -16,6 +16,7 @@ class FilterExecuteCommand extends ContainerAwareCommand
             ->setName('monactivite:filter:execute')
             ->setDescription('Apply a filter on activities')
             ->addArgument('filter-id', InputArgument::REQUIRED, 'Filter id')
+            ->addOption('dry-run', 't', InputOption::VALUE_NONE, 'Try import but not store in database')
         ;
     }
 
@@ -31,7 +32,7 @@ class FilterExecuteCommand extends ContainerAwareCommand
             throw new \Exception(sprintf("Filter %s not found", $input->getArgument('name')));
         }
 
-        $mm->executeFilter($filter, $output);        
+        $mm->executeFilter($filter, $output, $input->getOption('dry-run'));
     }
 }
 ?>

@@ -15,6 +15,7 @@ class FiltersExecuteCommand extends ContainerAwareCommand
         $this
             ->setName('monactivite:filters:execute')
             ->setDescription('Apply all filters on activities')
+            ->addOption('dry-run', 't', InputOption::VALUE_NONE, 'Try import but not store in database')
         ;
     }
 
@@ -23,7 +24,7 @@ class FiltersExecuteCommand extends ContainerAwareCommand
         $mm = $this->getContainer()->get('app.manager.main');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
-        $mm->executeAllFilters($output);
+        $mm->executeAllFilters($output, $input->getOption('dry-run'));
     }
 }
 ?>

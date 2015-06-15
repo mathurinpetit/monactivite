@@ -29,24 +29,24 @@ class MainManager
         return $this->sm->executeAll($output, $dryRun);
     }
 
-    public function executeFilter(Filter $filter, OutputInterface $output) {
+    public function executeFilter(Filter $filter, OutputInterface $output, $dryRun = false) {
         
-        return $this->fm->executeOne($filter, $output);
+        return $this->fm->executeOne($filter, $output, $dryRun);
     }
 
-    public function executeAllFilters(OutputInterface $output) {
+    public function executeAllFilters(OutputInterface $output, $dryRun = false) {
         
-        return $this->fm->executeAll($output);
+        return $this->fm->executeAll($output, $dryRun);
     }
 
     public function executeOne(Source $source, OutputInterface $output, $dryRun = false) {
         $this->executeSource($source, $output, $dryRun);
-        $this->executeAllFilters($output);
+        $this->executeAllFilters($output, $dryRun);
     }
 
     public function executeAll(OutputInterface $output, $dryRun = false) {
         $this->executeAllSources($output, $dryRun);
-        $this->executeAllFilters($output);
+        $this->executeAllFilters($output, $dryRun);
     }
 
 }

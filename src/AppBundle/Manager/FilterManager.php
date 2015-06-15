@@ -18,7 +18,7 @@ class FilterManager
         $this->slugger = $slugger;
     }
 
-    public function executeOne(Filter $filter, OutputInterface $output) {
+    public function executeOne(Filter $filter, OutputInterface $output, $dryRun = false) {
         $activities = $this->em->getRepository('AppBundle:Activity')->findByFilter($filter);
 
         foreach($activities as $activity) {
@@ -26,16 +26,19 @@ class FilterManager
             $this->em->persist($activity);
         }
 
-        $this->em->flush();
+
+        if(!$dryRun) {
+            $this->em->flush();
+        }
 
         $output->writeln(sprintf("tag <comment>\"%s\"</comment> has been <info>added</info> in <comment>%s</comment> activity</info>", $filter->getTag()->getName(), count($activities)));
     }
 
-    public function executeAll(OutputInterface $output) {
+    public function executeAll(OutputInterface $output, $dryRun = false) {
         $filters = $this->repository->findAll();
 
         foreach($filters as $filter) {
-            $this->executeOne($filter, $output);
+            $this->executeOne($filter, $output, $dryRun);
         }
     }
 }
