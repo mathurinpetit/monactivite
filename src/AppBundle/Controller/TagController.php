@@ -29,10 +29,14 @@ class TagController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
+        $entity = new Tag();
+        $form = $this->createCreateForm($entity);
+
         $entities = $em->getRepository('AppBundle:Tag')->findAll();
 
         return array(
             'entities' => $entities,
+            'form' => $form->createView(),
         );
     }
     /**

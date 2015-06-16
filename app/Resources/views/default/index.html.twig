@@ -9,7 +9,7 @@
             <h3>{{ date | date('D d M Y')}} 
             <div class="btn-group pull-right">
              {% for tag in tags %}
-                {% include 'Tag/button.html.twig' with {'tag': tag} %}
+                {% include 'Tag/button.html.twig' with {'tag': tag, url: ''} %}
             {% endfor %}
             </div>
             </h3>
@@ -25,7 +25,7 @@
                                 <button style="width: 32px; opacity: 0" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
                                 {% endfor %}
                                 {% for tag in activity.getTagsReverse() %}
-                                    {% include 'Tag/button_small.html.twig' with {'tag': tag} %}
+                                    {% include 'Tag/button_small.html.twig' with {'tag': tag, url: ''} %}
                                 {% endfor %}
                             </div>
                             </div>
