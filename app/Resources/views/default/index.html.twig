@@ -1,14 +1,15 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-    
+
 <div class="row">
     <div class="col-lg-12">
         {% for date, activities in activitiesByDates %}
             <h3>{{ date | date('D d M Y')}} 
             <div class="btn-group pull-right">
              {% for tag in tags %}
-                <button title="{{ tag.name }}" style="{% if(tag.color) %}color: white; border-color: {{ tag.color }}; background: {{ tag.color }}{% endif %}" class="btn btn-sm btn-default">{% if(tag.icon) %}<span class="glyphicon glyphicon-{{ tag.icon }}"></span> {% endif %}{{ tag.name }}</button>
+                {% include 'Tag/button.html.twig' with {'tag': tag} %}
             {% endfor %}
             </div>
             </h3>
@@ -24,7 +25,7 @@
                                 <button style="width: 32px; opacity: 0" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
                                 {% endfor %}
                                 {% for tag in activity.getTagsReverse() %}
-                                <button title="{{ tag.name }}" style="padding-left: 2px; padding-right: 2px;width: 32px;border-color: #fff;{% if(tag.color) %}color: white; border-color: {{ tag.color }}; background: {{ tag.color }}{% endif %}" class="btn btn-sm btn-default">{% if(tag.icon) %}<span class="glyphicon glyphicon-{{ tag.icon }}"></span> {% endif %}{% if(not tag.icon) %}{{ tag.name | slice(0, 2) | upper }}</small>{% endif %}</button>
+                                    {% include 'Tag/button_small.html.twig' with {'tag': tag} %}
                                 {% endfor %}
                             </div>
                             </div>

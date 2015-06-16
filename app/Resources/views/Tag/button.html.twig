@@ -1,0 +1,1 @@
+<button title="{{ tag.name }}" style="{% if(tag.color) %}color: white; border-color: {{ tag.color }}; background: {{ tag.color }}{% endif %}" class="btn btn-sm btn-default">{% if(tag.icon) %}<span class="glyphicon glyphicon-{{ tag.icon }}"></span> {% endif %}{{ tag.name }}</button>
