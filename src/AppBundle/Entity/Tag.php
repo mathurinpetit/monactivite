@@ -165,4 +165,9 @@ class Tag
     {
         return $this->activities;
     }
+
+    public function __toString() {
+
+        return $this->getName();
+    }
 }

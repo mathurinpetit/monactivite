@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block body -%}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">Ajouter un filtre</div>
+          <div class="panel-body">
+            {{ form(form) }}
+          </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Liste des filtres</div>
+            <div class="list-group">
+            {% for entity in entities %}
+                <a href="{{ path('filter_edit', {'id': entity.id }) }}" class="list-group-item">
+                    <div class="col-xs-8">{{ entity.query }}</div>
+                    <div class="col-xs-4 text-right">
+                    {% include 'Tag/button.html.twig' with {'tag': entity.tag,  'type': 'button' } %}
+                    </div>
+                    <div class="clearfix"></div>
+                </a>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
