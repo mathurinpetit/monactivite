@@ -28,4 +28,19 @@ class DefaultController extends Controller
 
         return $this->render('default/index.html.twig', array('activitiesByDates' => $activitiesByDates, 'tags' => $tags));
     }
+
+    public function listAction($activities, $title) {
+        $tags = array();
+
+        foreach($activities as $activity) {
+            foreach($activity->getTags() as $tag) {
+                if(!isset($tags[$tag->getId()])) {
+                    $tags[$tag->getId()] = array('nb' => 0  );
+                }
+                $tags[$tag->getId()]['nb'] += 1;
+                $tags[$tag->getId()]['entity'] = $tag;
+            }
+        }
+        return $this->render('Activity/list.html.twig', array('activities' => $activities, 'tags' => $tags, 'title' => $title));
+    }
 }

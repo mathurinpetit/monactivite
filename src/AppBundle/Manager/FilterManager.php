@@ -26,7 +26,6 @@ class FilterManager
             $this->em->persist($activity);
         }
 
-
         if(!$dryRun) {
             $this->em->flush();
         }

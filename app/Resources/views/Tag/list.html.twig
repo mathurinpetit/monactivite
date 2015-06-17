@@ -1,0 +1,10 @@
+<div class="row">
+{% for entity in entities %}
+<div class="col-xs-3">
+    <p>
+        {% include 'Tag/button_small.html.twig' with {'tag': entity, 'url': path('tag_edit', {'id': entity.id })} %}
+        {% include 'Tag/button.html.twig' with {'tag': entity, 'url': path('tag_edit', {'id': entity.id })} %}
+    </p>
+</div>
+{% endfor %}
+</div>

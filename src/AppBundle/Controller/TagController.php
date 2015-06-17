@@ -57,7 +57,7 @@ class TagController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('tag'));
         }
 
         return array(
@@ -80,52 +80,9 @@ class TagController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Ajouter'));
 
         return $form;
-    }
-
-    /**
-     * Displays a form to create a new Tag entity.
-     *
-     * @Route("/new", name="tag_new")
-     * @Method("GET")
-     * @Template("Tag/new.html.twig")
-     */
-    public function newAction()
-    {
-        $entity = new Tag();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Tag entity.
-     *
-     * @Route("/{id}", name="tag_show")
-     * @Method("GET")
-     * @Template("Tag/show.html.twig")
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AppBundle:Tag')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Tag entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
     }
 
     /**
@@ -145,10 +102,13 @@ class TagController extends Controller
             throw $this->createNotFoundException('Unable to find Tag entity.');
         }
 
+        $entities = $em->getRepository('AppBundle:Tag')->findAll();
+
         $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
+            'entities'    => $entities,
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
@@ -169,7 +129,7 @@ class TagController extends Controller
             'method' => 'PUT',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Update'));
+        $form->add('submit', 'submit', array('label' => 'Modifier'));
 
         return $form;
     }
@@ -197,7 +157,7 @@ class TagController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('tag_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('tag'));
         }
 
         return array(
@@ -244,7 +204,6 @@ class TagController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('tag_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }

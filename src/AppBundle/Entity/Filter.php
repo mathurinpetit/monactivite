@@ -89,4 +89,9 @@ class Filter
     {
         return $this->tag;
     }
+
+    public function __toString() {
+
+        return $this->getQuery();
+    }
 }

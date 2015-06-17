@@ -248,4 +248,9 @@ class Activity
         }
         return array_reverse($tags);
     }
+
+    public function __toString() {
+
+        return $this->getTitle();
+    }
 }

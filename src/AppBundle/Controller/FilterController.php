@@ -80,7 +80,7 @@ class FilterController extends Controller
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Ajouter'));
 
         return $form;
     }
@@ -230,6 +230,35 @@ class FilterController extends Controller
         }
 
         return $this->redirect($this->generateUrl('filter'));
+    }
+
+    /**
+     * @Route("/{id}/execute", name="filter_execute")
+     * @Method("GET")
+     * @Template("Filter/execute.html.twig")
+     */
+    public function executeAction(Request $request, $id) {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('AppBundle:Filter')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Filter entity.');
+        }
+
+        $form = $this->createCreateForm($entity);
+
+        $this->get('app.manager.main')->executeFilter($entity, new \Symfony\Component\Console\Output\ConsoleOutput(), true);
+
+        $this->get('doctrine.orm.entity_manager')->getUnitOfWork()->computeChangeSets();
+
+        $entities = $this->get('doctrine.orm.entity_manager')->getUnitOfWork()->getScheduledEntityUpdates();
+
+        return array(
+            'entity' => $entity,
+            'form' => $form->createView(),
+            'entities' => $entities,
+        );
     }
 
     /**

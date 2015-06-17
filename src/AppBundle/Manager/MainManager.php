@@ -3,6 +3,7 @@
 namespace AppBundle\Manager;
 
 use AppBundle\Entity\Source;
+use AppBundle\Entity\Filter;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MainManager

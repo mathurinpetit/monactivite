@@ -1,29 +1,24 @@
 {% extends '::base.html.twig' %}
 
-{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 {% block body -%}
 <div class="row">
    <div class="col-xs-12">
         <div class="panel panel-default">
-          <div class="panel-heading">Ajouter un tag</div>
-          <div class="panel-body">
-            {{ form(form) }}
-          </div>
+            <div class="panel-heading">Ajouter un tag</div>
+            <div class="panel-body">
+                <div class="row">
+                {% include "Tag/form.html.twig" with { 'form': form } %}
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">Liste des tags</div>
             <div class="panel-body">
-                {% for entity in entities %}
-                <div class="col-xs-3">
-                    <p>
-                        {% include 'Tag/button_small.html.twig' with {'tag': entity, 'url': path('tag_edit', {'id': entity.id })} %}
-                        {% include 'Tag/button.html.twig' with {'tag': entity, 'url': path('tag_edit', {'id': entity.id })} %}
-                    </p>
-                </div>
-                {% endfor %}
+                {% include "Tag/list.html.twig" with { 'entities': entities } %}
             </div>
         </div>
     </div>

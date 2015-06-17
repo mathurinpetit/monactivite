@@ -1,0 +1,18 @@
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+    <div class="col-xs-8">
+        <div class="form-group">
+        {{ form_widget(form.query, { 'attr': {'placeholder': 'Requête' }}) }}
+        </div>
+    </div>
+    <div class="col-xs-2">
+        <div class="form-group">
+        {{ form_widget(form.tag, { 'attr': {'placeholder': 'Tag à appliquer' }}) }}
+        </div>
+    </div>
+    <div class="col-xs-1">
+        <div class="form-group">
+            {{ form_widget(form.submit) }}
+        </div>
+    </div>
+{{ form_end(form) }}
