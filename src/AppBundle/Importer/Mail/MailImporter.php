@@ -4,7 +4,6 @@ namespace AppBundle\Importer\Mail;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use AppBundle\Importer\Importer;
-use Html2Text\Html2Text;
 use AppBundle\Entity\Activity;
 use AppBundle\Entity\ActivityAttribute;
 
@@ -85,8 +84,7 @@ class MailImporter extends Importer
             break;
         }
 
-        $html2text = new Html2Text($parsedMail->getPrimaryContent());
-        $body = $html2text->get_text();
+        $body = $parsedMail->getPrimaryContent();
 
         $activity = new Activity();
         $activity->setExecutedAt(new \DateTime($date));
