@@ -205,6 +205,15 @@ class Activity
         return $this->attributes;
     }
 
+    public function getAttributesHtml() {
+        $text = "";
+        foreach($this->getAttributes() as $attribute) {
+            $text .= "<span class='text-muted'>".$attribute->getName()."</span>" . " : " . $attribute->getValue() . "<br />";
+        }
+
+        return $text;
+    }
+
     /**
      * Add tags
      *

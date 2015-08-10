@@ -12,28 +12,26 @@
 {% set i = 0 %}
 {% for activity in activities %}
     <div style="{% if(i % 2) %}background-color: #f5f5f5;{% endif %}border-bottom: 1px solid #e8e8e8;" style="padding-top: 0; padding-bottom: 0;">
-            <div style="width: 130px; padding-right: 0; padding-left:0;" class="col-xs-2 text-left text-muted">
-            <div class="btn-group">
-                {% for i in 0..(3 - activity.tags | length) %}
-                <button style="width: 32px; opacity: 0" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
-                {% endfor %}
-                {% for tag in activity.getTagsReverse() %}
-                    {% include 'Tag/button_small.html.twig' with {'tag': tag, url: ''} %}
-                {% endfor %}
+            <div class="col-xs-2 text-left text-muted" style="padding-left: 0;">
+                <div class="btn-group">
+                    {% for i in 0..(2 - activity.tags | length) %}
+                    <button style="width: 32px; opacity: 0.1; border: 0;" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                    {% endfor %}
+                    {% for tag in activity.getTagsReverse() %}
+                        {% include 'Tag/button_small.html.twig' with {'tag': tag, url: ''} %}
+                    {% endfor %}
+                </div>
+                <span style="padding-left: 15px;">{{ activity.executedAt | date('H:i') }}</span>
             </div>
-            </div>
-            <div style="width: 0; padding-top: 4px; padding-bottom: 3px; padding-right: 30px; " class="col-xs-1 text-left text-muted">
-               <span>{{ activity.executedAt | date('H') }}</span><small>h</small>
-            </div>
-            <div class="col-xs-10" style="padding-top: 4px; padding-bottom: 3px;">
+            <div class="col-xs-9" style="padding-top: 4px; padding-bottom: 3px;">
             <span>{{ activity.title }}</span>&nbsp;&nbsp;
-            <div class="btn-group text-muted hidden">
-            {% for attribute in activity.getAttributes() %}
-                <a class="btn btn-xs btn-default" style="padding: 0 3px;" href="">{{ attribute.value }}</a>
-            {% endfor %}
             </div>
+            <div class="col-xs-1 text-right" style="padding-right: 0;">
+                <div class="btn-group">
+                <button style="width: 32px; border: none; background: transparent;" class="btn btn-default btn-sm {% if not activity.content %}invisible{% endif %}" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="left" title="{{ activity.getAttributesHtml() }}{{ activity.title }}" data-content="{{ activity.content | nl2br }}" data-html="true"><span class="glyphicon glyphicon-eye-open"></span></button>
+                <button style="width: 32px; border: none; background: transparent; opacity: 0.3;" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
+                </div>
             </div>
-            
             <div class="clearfix"></div>
     </div>
 {% set i = i + 1 %}

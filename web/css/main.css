@@ -1,0 +1,9 @@
+.popover {
+    width: 600px;
+    
+}
+
+.popover-content {
+    max-height: 240px;
+    overflow: auto;
+}

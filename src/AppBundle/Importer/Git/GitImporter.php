@@ -27,7 +27,7 @@ class GitImporter extends Importer
             $activity = new Activity();
             $activity->setExecutedAt(isset($datas[3]) ? new \DateTime(trim($datas[3])) : null);
             $activity->setTitle(isset($datas[4]) ? trim($datas[4]) : null);
-            $activity->setContent(isset($datas[5]) ? trim($datas[5]) : null);
+            $activity->setContent(isset($datas[5]) ? str_replace('\n', "\n", trim($datas[5])) : null);
 
             $type = new ActivityAttribute();
             $type->setName("Type");

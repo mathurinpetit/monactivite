@@ -17,7 +17,7 @@ class DefaultController extends Controller
 
         $activitiesByDates = array();
 
-        for($i = 0; $i < 20; $i++) {
+        for($i = 0; $i < 30; $i++) {
             $date = new \DateTime(date('Y-m-d 05:00:00'));
             $date->modify("- ".$i."days");
 
@@ -41,6 +41,14 @@ class DefaultController extends Controller
                 $tags[$tag->getId()]['entity'] = $tag;
             }
         }
+
+        usort($tags, "\AppBundle\Controller\DefaultController::sortTagByNb");
+
         return $this->render('Activity/list.html.twig', array('activities' => $activities, 'tags' => $tags, 'title' => $title));
+    }
+
+    public static function sortTagByNb($a, $b) {
+
+        return $a['nb'] < $b['nb'];
     }
 }
