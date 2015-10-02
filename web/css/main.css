@@ -4,6 +4,6 @@
 }
 
 .popover-content {
-    max-height: 240px;
+    max-height: 400px;
     overflow: auto;
 }

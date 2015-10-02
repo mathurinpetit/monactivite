@@ -24,28 +24,28 @@ class GitImporter extends Importer
         foreach(file($storeFile) as $line) {
             $datas = str_getcsv($line, ";", '"');
 
-            $activity = new Activity();
-            $activity->setExecutedAt(isset($datas[3]) ? new \DateTime(trim($datas[3])) : null);
-            $activity->setTitle(isset($datas[4]) ? trim($datas[4]) : null);
-            $activity->setContent(isset($datas[5]) ? str_replace('\n', "\n", trim($datas[5])) : null);
-
-            $type = new ActivityAttribute();
-            $type->setName("Type");
-            $type->setValue("Commit");
-
-            $repository = new ActivityAttribute();
-            $repository->setName("Repository");
-            $repository->setValue($sourceName);
-
-            $author = new ActivityAttribute();
-            $author->setName("Author");
-            $author->setValue(isset($datas[2]) ? trim(preg_replace("/^.+<(.+)>$/", '\1', $datas[2])) : null);
-
-            $activity->addAttribute($type);
-            $activity->addAttribute($repository);
-            $activity->addAttribute($author);
-
             try {
+                $activity = new Activity();
+                $activity->setExecutedAt(isset($datas[3]) ? new \DateTime(trim($datas[3])) : null);
+                $activity->setTitle(isset($datas[4]) ? trim($datas[4]) : null);
+                $activity->setContent(isset($datas[5]) ? str_replace('\n', "\n", trim($datas[5])) : null);
+
+                $type = new ActivityAttribute();
+                $type->setName("Type");
+                $type->setValue("Commit");
+
+                $repository = new ActivityAttribute();
+                $repository->setName("Repository");
+                $repository->setValue($sourceName);
+
+                $author = new ActivityAttribute();
+                $author->setName("Author");
+                $author->setValue(isset($datas[2]) ? trim(preg_replace("/^.+<(.+)>$/", '\1', $datas[2])) : null);
+
+                $activity->addAttribute($type);
+                $activity->addAttribute($repository);
+                $activity->addAttribute($author);
+
                 $this->am->addFromEntity($activity);
 
                 if(!$dryrun) {
