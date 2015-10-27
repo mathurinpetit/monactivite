@@ -208,7 +208,7 @@ class Activity
     public function getAttributesHtml() {
         $text = "";
         foreach($this->getAttributes() as $attribute) {
-            $text .= "<span class='text-muted'>".$attribute->getName()."</span>" . " : " . $attribute->getValue() . "<br />";
+            $text .= "<small class='text-muted'>".$attribute->getName()."&nbsp;:</small>" . "&nbsp;" . $attribute->getValue() . "<br />";
         }
 
         return $text;

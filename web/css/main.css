@@ -1,9 +1,31 @@
 .popover {
-    width: 600px;
+    width: 500px;
+    opacity: 0.9 !important;
+}
+
+.tooltip {
+}
+
+.tooltip-inner {
     
 }
 
 .popover-content {
-    max-height: 400px;
-    overflow: auto;
+    max-height: 300px;
+    overflow: hidden;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.btn-show-hover {
+    visibility: hidden;
+}
+
+.ligne:hover .btn-show-hover {
+    visibility: visible;
+}
+
+.ligne {
+    height: 28px;
+    overflow: hidden;
 }

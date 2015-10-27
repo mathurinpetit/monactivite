@@ -17,11 +17,13 @@ class DefaultController extends Controller
 
         $activitiesByDates = array();
 
-        for($i = 0; $i < 80; $i++) {
+        for($i = 0; $i < 40; $i++) {
             $date = new \DateTime(date('Y-m-d 05:00:00'));
             $date->modify("- ".$i."days");
-
-            $activitiesByDates[$date->format('Y-m-d')] = $repo->findByDate($date);
+            $activities = $repo->findByDate($date);
+            if(count($activities) > 0) {
+                $activitiesByDates[$date->format('Y-m-d')] = $repo->findByDate($date);
+            }
         }
 
         $tags = $em->getRepository('AppBundle:Tag')->findAll();

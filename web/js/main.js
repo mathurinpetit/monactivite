@@ -4,6 +4,7 @@ $(document).ready( function() {
     });
 
     $('[data-toggle="popover"]').popover();
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('.iconpicker[data-form-item-relation]').on('change', function(e) {
         var icon = e.icon.replace("glyphicon-", "");
